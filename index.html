@@ -1,38 +1,2396 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Homepage</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
+    <head>
+        <title>学习站</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+/* 基础设置 */
+:root {
+  --primary-color: #4b6b8a;
+  --secondary-color: #2f2f2f;
+  --bg-color: #dbd8cf;
+  --text-color: #2f2f2f;
+  --light-text: #dbd8cf;
+  --transition: all 0.3s ease;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-large: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* 基础样式 */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* 头部样式 */
+header {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    color: var(--light-text);
+    padding: 40px 0;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 60%);
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 48px;
+    margin: 0;
+    padding: 10px;
+}
+
+h2 {
+    font-size: 36px;
+    margin: 40px 0 20px;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    z-index: 2;
+    transition: var(--transition);
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 20px;
+    margin: 5px 0;
+    color: var(--light-text);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: var(--transition);
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar a:hover {
+    background-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+/* 内容区域样式 */
+.content {
+    margin-left: 240px;
+    transition: var(--transition);
+}
+
+section {
+    background-color: white;
+    margin: 20px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+section.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* 按钮和链接样式 */
+.btn, a {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn:hover, a:hover {
+    background-color: #3a5a7a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* 列表样式 */
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+ul li {
+    display: inline-block;
+}
+
+/* 响应式菜单按钮 */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--primary-color);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* 修改列表和按钮布局 */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    justify-items: center;
+}
+
+ul li {
+    width: 100%;
+    display: flex;
+}
+
+.btn, ul li a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+    margin: 0;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: var(--transition);
+    min-height: 60px;
+    word-break: break-word;
+}
+
+.btn:hover, ul li a:hover {
+    background-color: #3a5a7a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    ul {
+        grid-template-columns: 1fr;
+        /* 在移动端使用单列布局 */
+    }
+}
+
+/* 引言样式 */
+header p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+/* 为两句话设置不同的动画延迟 */
+header p:first-of-type {
+    animation-delay: 0.3s;
+}
+
+header p:last-of-type {
+    animation-delay: 0.6s;
+    font-style: italic;
+}
+
+/* 添加鼠标悬停效果 */
+header p:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* 定义渐入动画 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 添加装饰元素 */
+header p:first-of-type::before,
+header p:first-of-type::after {
+    content: "『";
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+header p:first-of-type::after {
+    content: "』";
+    margin-left: 10px;
+}
+
+header p:last-of-type::before,
+header p:last-of-type::after {
+    content: "「";
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+header p:last-of-type::after {
+    content: "」";
+    margin-left: 10px;
+}
+
+/* 添加到现有的 CSS 中 */
+.btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    height: auto;
+    min-height: 80px;
+}
+
+.level-1 {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.level-2 {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.level-3 {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+/* 调整按钮网格布局 */
+ul {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* 增加最小宽度以适应更多文本 */
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    .btn {
+        padding: 10px;
+    }
+    
+    .level-1 {
+        font-size: 1.1em;
+    }
+    
+    .level-2 {
+        font-size: 0.85em;
+    }
+    
+    .level-3 {
+        font-size: 0.75em;
+    }
+}
+
+/* 在现有的 CSS 中添加 */
+.search-container {
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--light-text);
+    margin-bottom: 10px;
+}
+
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-result-item {
+    padding: 8px;
+    cursor: pointer;
+    color: var(--light-text);
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.search-result-item:hover {
+    background-color: var(--primary-color);
+}
+
+.highlight {
+    background-color: yellow;
+    color: black;
+}
+
+/* 美化搜索结果的滚动条 */
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: var(--transition);
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: #3a5a7a;
+}
+
+/* 优化搜索结果容器 */
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    color: var(--light-text);
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: var(--transition);
+    font-size: 0.9em;
+}
+
+
+    </style>
+    </head>
+
 <body>
-  <!-- 包含导航栏 -->
-  <!-- 这里你需要将navbar.html的内容复制进来或者使用服务器端的技术（如PHP）来包含它 -->
-  <nav>
+
+    <div class="sidebar">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="搜索...">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <a href="#视频课网站">视频课网站</a>
+        <a href="#数学">数学</a>
+        <a href="#物理">物理</a>
+        <a href="#计科及其他">计科及其他</a>
+        <a href="#综合">综合</a>
+        <a href="#电子书网站">电子书网站</a>
+        <a href="#论坛">论坛</a>
+        <a href="#工具">工具</a>
+        <a href="#研究所">研究所</a>    
+        <a href="#LaTex">LaTex</a>
+        <a href="#AI工具">AI工具</a>
+    </div>
+
+    <div class="content">
+	<header>
+		<h1>学习站</h1>
+		<p>少年为学者，每一书皆作数过尽之.</p>
+        <p>我们不能做离岸浮冰上的垂钓者.</p>
+	</header>
+
+	<section id="视频课网站">
+		<h2>视频课网站</h2>
     <ul>
-      <li><a href="index.html">Homepage</a></li>
-      <li><a href="Mathematics.html">Mathematics</a></li>
-      <li><a href="Physics.html">Physics</a></li>
-      <li><a href="CSEE.html">CS & EE</a></li>
-      <li><a href="Others.html">Others</a></li>
+		<li><a href="https://www.bilibili.com/" class="btn" >
+                <span class="level-1">Bilibili</span>
+            </a></li>
+        <li><a href="https://www.youtube.com/" class="btn" >
+                <span class="level-1">Youtube</span>
+            </a></li>
+        <li><a href="https://ocw.mit.edu/" class="btn" >
+                <span class="level-1">MIT OpenCourseWare</span>
+                <span class="level-2">麻省理工学院开放课程</span>
+            </a></li>
+        <li><a href="https://teach-in.ru/" class="btn" >
+                <span class="level-1">Teach-in</span>
+                <span class="level-2">莫斯科国立大学开放课程</span>
+            </a></li>
+        <li><a href="https://ocw.nthu.edu.tw/ocw/index.php" class="btn">
+                <span class="level-1">国立清华大学开放式课程</span>
+            </a></li>
+        <li><a href="https://ocw.aca.ntu.edu.tw/ntu-ocw/" class="btn">
+                <span class="level-1">国立台湾大学开放式课程</span>
+            </a></li>
+        <li><a href="https://www.openculture.com/" class="btn">
+                <span class="level-1">Open Cultural</span>
+            </a></li>
+        <li><a href="https://python123.io/" class="btn">
+                <span class="level-1">Python123</span>
+            </a></li>
+        <li><a href="https://theoreticalminimum.com/home" class="btn">
+                <span class="level-1">理论最小值</span>
+            </a></li>
+		</ul>
+	</section>
+  
+    <section id="数学">
+		<h2>数学</h2>
+	<ul>
+	    <li><a href="https://dec41.user.srcf.net/" class="btn">
+                <span class="level-1">Dexter Chua</span>
+                <span class="level-3">全面的剑桥大学学生笔记</span>
+            </a></li>
+        <li><a href="https://courses.maths.ox.ac.uk/" class="btn">
+                <span class="level-1">牛津大学</span>
+                <span class="level-1">数学学院课程材料中心</span>
+            </a></li>
+        <li><a href="https://metaphor.ethz.ch/" class="btn">
+                <span class="level-1">苏黎世联邦理工学院</span>
+                <span class="level-1">数学与教育组讲座主页</span>
+            </a></li>
+        <li><a href="https://textbooks.math.gatech.edu/" class="btn" >
+                <span class="level-1">线性代数</span>
+                <span class="level-2">佐治亚理工学院</span>
+            </a></li>
+        <li><a href="https://tutorial.math.lamar.edu/" class="btn">
+                <span class="level-1">Paul的在线数学笔记</span>
+                <span class="level-2">拉马尔大学</span>
+                <span class="level-3">代数学、微积分、微分方程</span>
+            </a></li>    
+        <li><a href="https://www.maths.ed.ac.uk/~jmf/index.html" class="btn" >
+                <span class="level-1">Figueroa</span>
+                <span class="level-2">爱丁堡大学</span>
+                <span class="level-3">变分法、常微分方程、几何学、规范理论、数学物理等</span>
+            </a></li>
+        <li><a href="https://jimbelk.github.io/web/" class="btn" >
+                <span class="level-1">Belk</span>
+                <span class="level-2">格拉斯哥大学</span>
+                <span class="level-3">微积分、数学建模、数论、微分几何、测度论、动力系统、拓扑等</span>
+            </a></li>
+        <li><a href="https://www.wwli.asia/index.php/zh/" class="btn" >
+                <span class="level-1">李文威</span>
+                <span class="level-2">北京大学</span>
+                <span class="level-3">代数学</span>
+            </a></li>
+        <li><a href="https://people.math.harvard.edu/~elkies/" class="btn" >
+                <span class="level-1">Elkies</span>
+                <span class="level-2">哈佛大学</span>
+                <span class="level-3">解析数论、各种代数</span>
+            </a></li>
+        <li><a href="https://www.math.ucdavis.edu/~hunter/index.html" class="btn" >
+                <span class="level-1">Hunter</span>
+                <span class="level-2">加州大学戴维斯分校</span>
+                <span class="level-3">各种分析学</span>
+            </a></li>
+        <li><a href="https://web.math.ucsb.edu/~agboola/teaching/" class="btn" >
+                <span class="level-1">Agboola</span>
+                <span class="level-2">加州大学圣芭芭拉分校</span>
+                <span class="level-3">各种代数、数论</span>
+            </a></li>
+        <li><a href="https://www.math.stonybrook.edu/~aknapp/" class="btn" >
+                <span class="level-1">Knapp</span>
+                <span class="level-2">石溪大学</span>
+                <span class="level-3">代数学、实分析、李群等</span>
+            </a></li>
+        <li><a href="https://web.math.princeton.edu/~gunning/" class="btn" >
+                <span class="level-1">Gunning</span>
+                <span class="level-2">普林斯顿大学</span>
+                <span class="level-3">黎曼曲面</span>
+            </a></li>
+        <li><a href="https://www.math.toronto.edu/khesin/" class="btn" >
+                <span class="level-1">Khesin</span>
+                <span class="level-2">多伦多大学</span>
+                <span class="level-3">分析力学、可积系统、李群、辛拓扑等</span>
+            </a></li>
+        <li><a href="http://mech.math.msu.su/~troitsky/" class="btn" >
+                <span class="level-1">Troitsky</span>
+                <span class="level-2">莫斯科国立大学</span>
+                <span class="level-3">微分几何与拓扑</span>
+            </a></li>
+        <li><a href="https://math.nyu.edu/~varadhan/" class="btn">
+                <span class="level-1">Varadhan</span>
+                <span class="level-2">纽约大学</span>
+                <span class="level-3">数学分析、实分析、复分析、概率论、统计学、随机过程等</span>
+            </a></li>
+        <li><a href="http://alpha.math.uga.edu/~pete/2400full.pdf" class="btn">
+                <span class="level-1">Clark</span>
+                <span class="level-2">佐治亚大学</span>
+            </a></li>
+        <li><a href="https://www.cis.upenn.edu/~jean/math-deep.pdf" class="btn">
+                <span class="level-1">Jean</span>
+                <span class="level-2">宾夕法尼亚大学</span>
+                <span class="level-3">数学与计算机科学相关</span>
+            </a></li>
+        <li><a href="https://math.iisc.ac.in/~vvdatar/" class="btn">
+                <span class="level-1">Datar</span>
+                <span class="level-2">印度科学中心</span>
+                <span class="level-3">复分析、黎曼几何、微积分、线性代数等</span>
+            </a></li>
+        <li><a href="https://personal.math.ubc.ca/~feldman/" class="btn">
+                <span class="level-1">Feldman</span>
+                <span class="level-2">英属哥伦比亚大学</span>
+                <span class="level-3">微积分、实分析、微分方程、微分几何、概率论等</span>
+            </a></li>
+        <li><a href="https://www.ucl.ac.uk/~ucahad0/" class="btn">
+                <span class="level-1">Sokal</span>
+                <span class="level-2">伦敦大学学院</span>
+                <span class="level-3">分析力学、泛函分析</span>
+            </a></li>
+        <li><a href="https://mathweb.ucsd.edu/~bdriver/DRIVER/" class="btn">
+                <span class="level-1">Driver</span>
+                <span class="level-2">加州大学圣地亚哥分校</span>
+                <span class="level-3">微积分、复分析、几何相关等</span>
+            </a></li>
+        <li><a href="https://www.math.ucla.edu/~tao/" class="btn">
+                <span class="level-1">陶哲轩</span>
+                <span class="level-2">加州大学洛杉矶分校</span>
+                <span class="level-3">实分析、复分析、傅里叶分析、拓扑学、偏微分方程、解析数论等</span>
+            </a></li>
+        <li><a href="https://people.math.harvard.edu/~ctm/" class="btn">
+                <span class="level-1">McMullen</span>
+                <span class="level-2">哈佛大学</span>
+                <span class="level-3">实分析、复分析、黎曼几何、拓扑学、代数学等</span>
+            </a></li>
+        <li><a href="https://math.jhu.edu/~brown/courses/" class="btn">
+                <span class="level-1">Brown</span>
+                <span class="level-2">约翰霍普金斯大学</span>
+                <span class="level-3">动力系统、微积分</span>
+            </a></li>
+        <li><a href="https://pi.math.cornell.edu/~hatcher/" class="btn">
+                <span class="level-1">Hatcher</span>
+                <span class="level-2">康奈尔大学</span>
+                <span class="level-3">拓扑学、代数拓扑相关</span>
+            </a></li>
+        <li><a href="https://www.ndsu.edu/pubweb/~alfonsec/" class="btn">
+                <span class="level-1">Alfonseca</span>
+                <span class="level-2">北达科达州立大学</span>
+                <span class="level-3">傅里叶分析、泛函分析、拓扑学等</span>
+            </a></li>
+        <li><a href="https://web.evanchen.cc/olympiad.html" class="btn">
+                <span class="level-1">陈谊廷</span>
+                <span class="level-2">麻省理工学院</span>
+                <span class="level-3">奥林匹克数学竞赛相关</span>
+            </a></li>
+        <li><a href="https://www.zhangjy9610.me/USTCdata.html#mathplan" class="btn">
+                <span class="level-1">USTC学习资料</span>
+                <span class="level-2">中国科学技术大学</span>
+            </a></li>
+        <li><a href="http://faculty.bicmr.pku.edu.cn/~lxiao/" class="btn">
+                <span class="level-1">肖梁</span>
+                <span class="level-2">北京大学</span>
+                <span class="level-3">代数学、数论相关</span>
+            </a></li>
+        <li><a href="https://faculty.etsu.edu/gardnerr/gardner.htm" class="btn">
+                <span class="level-1">Bob</span>
+                <span class="level-2">东田纳西州立大学</span>
+                <span class="level-3">大量、全面的各方向的资料</span>
+            </a></li>
+        <li><a href="https://sites.math.washington.edu//~folland/Homepage/" class="btn">
+                <span class="level-1">Folland</span>
+                <span class="level-2">华盛顿大学</span>
+                <span class="level-3">微积分以及一些勘误</span>
+            </a></li>
+        <li><a href="https://heil.math.gatech.edu/" class="btn">
+                <span class="level-1">Heil</span>
+                <span class="level-2">佐治亚理工学院</span>
+                <span class="level-3">数学分析、实分析、泛函分析、抽象代数等</span>
+            </a></li>
+        <li><a href="https://www-users.cse.umn.edu/~garrett/" class="btn">
+                <span class="level-1">Garrett</span>
+                <span class="level-2">明尼苏达大学</span>
+                <span class="level-3">复分析、实分析、泛函分析、代数学、数论</span>
+            </a></li>
+        <li><a href="https://people.math.ethz.ch/~kowalski/" class="btn">
+                <span class="level-1">Kowalski</span>
+                <span class="level-2">苏黎世联邦理工学院</span>
+                <span class="level-3">数学分析、概率数论、测度论、代数学相关</span>
+            </a></li>
+        <li><a href="https://math.berkeley.edu/~sjoh/" class="btn">
+                <span class="level-1">Sung-Jin Oh</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">偏微分方程等</span>
+            </a></li>
+        <li><a href="https://icm.sustech.edu.cn/lidong/static/file/Hopkin-2001.pdf" class="btn">
+                <span class="level-1">偏微分方程讲义</span>
+                <span class="level-2">南方科技大学</span>
+            </a></li>
+        <li><a href="https://www.math.uni-bonn.de/ag/ana/" class="btn">
+                <span class="level-1">分析与偏微分方程研究组</span>
+                <span class="level-2">波恩大学</span>
+                <span class="level-3">大量相关课程</span>
+            </a></li>
+        <li><a href="https://www.math.cuhk.edu.hk/course_builder/1617/math5012/" class="btn">
+                <span class="level-1">实分析</span>
+                <span class="level-2">香港中文大学</span>
+            </a></li>
+        <li><a href="https://math.berkeley.edu/~evans/" class="btn">
+                <span class="level-1">Evans</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">有关优化的讲义和偏微分方程的勘误</span>
+            </a></li>
+        <li><a href="https://www.math.cmu.edu/~ttkocz/" class="btn">
+                <span class="level-1">Tkocz</span>
+                <span class="level-2">卡内基梅隆大学</span>
+                <span class="level-3">概率论和几何相关</span>
+            </a></li>
+        <li><a href="http://math.amss.cas.cn/kyry/hcc/" class="btn">
+                <span class="level-1">郝成春</span>
+                <span class="level-2">中国科学院</span>
+                <span class="level-3">实分析、调和分析</span>
+            </a></li>
+        <li><a href="https://www.lakeheadu.ca/sites/default/files/uploads/77/images/Spivak%20Dylan.pdf" class="btn">
+                <span class="level-1">Spivak</span>
+                <span class="level-2">湖首大学</span>
+                <span class="level-3">拓扑群论</span>
+            </a></li>
+        <li><a href="https://people.math.ethz.ch/~salamon/" class="btn">
+                <span class="level-1">Salamon</span>
+                <span class="level-2">苏黎世联邦理工学院</span>
+                <span class="level-3">数学分析、微分几何、泛函分析等</span>
+            </a></li>
+        <li><a href="https://math.ecnu.edu.cn/~hryuan/intro_c.html?language=1&id=137" class="btn">
+                <span class="level-1">袁海荣</span>
+                <span class="level-2">华东师范大学</span>
+                <span class="level-3">大量偏微分方程相关、微分几何、点集拓扑、线性代数</span>
+            </a></li>
+        <li><a href="https://www.math.purdue.edu/~twooley/" class="btn">
+                <span class="level-1">Twooley</span>
+                <span class="level-2">普渡大学</span>
+                <span class="level-3">数论与代数相关</span>
+            </a></li>
+        <li><a href="http://www.math.tau.ac.il/~rudnick/" class="btn">
+                <span class="level-1">Rudnick</span>
+                <span class="level-2">特拉维夫大学</span>
+                <span class="level-3">数论与代数相关</span>
+            </a></li>
+        <li><a href="https://www2.math.upenn.edu/~wilf/" class="btn">
+                <span class="level-1">Wilf</span>
+                <span class="level-2">宾夕法尼亚大学</span>
+                <span class="level-3">数学物理方法、算法、数值分析</span>
+            </a></li>
+        <li><a href="https://yufeizhao.com/" class="btn">
+                <span class="level-1">Yufei Zhao</span>
+                <span class="level-2">麻省理工学院</span>
+                <span class="level-3">组合学相关</span>
+            </a></li>
+        <li><a href="https://www.hairer.org/index.html" class="btn">
+                <span class="level-1">Hairer</span>
+                <span class="level-2">洛桑联邦理工学院</span>
+                <span class="level-3">随机分析、偏微分方程等</span>
+            </a></li>
+        <li><a href="https://flowus.cn/share/afd555bf-fd94-4124-988f-f98653dd3a52" class="btn">
+                <span class="level-1">Math for Happiness</span>
+                <span class="level-2">学习攻略</span>
+            </a></li>
+        <li><a href="https://docs.qq.com/doc/p/aec47ed20c2170d9f680ceaaf81b2b0c8aa7a2a9" class="btn">
+                <span class="level-1">北大数院自救指南</span>
+            </a></li>
+        <li><a href="https://www.topologywithouttears.net/" class="btn">
+                <span class="level-1">Topology without Tears</span>
+                <span class="level-2">Sidney A. Morris</span>
+            </a></li>
+        <li><a href="https://homepage.divms.uiowa.edu/~goodman/" class="btn">
+                <span class="level-1">Goodman</span>
+                <span class="level-2">爱荷华大学</span>
+                <span class="level-3">代数学</span>
+            </a></li>
+        <li><a href="https://gauss.math.yale.edu/~il282/" class="btn">
+                <span class="level-1">Losev</span>
+                <span class="level-2">耶鲁大学</span>
+                <span class="level-3">代数学相关</span>
+            </a></li>
+        <li><a href="https://math.mit.edu/~etingof/" class="btn">
+                <span class="level-1">Etingof</span>
+                <span class="level-2">麻省理工学院</span>
+                <span class="level-3">大量代数相关</span>
+            </a></li>
+        <li><a href="http://staff.ustc.edu.cn/~wangzuoq/" class="btn">
+                <span class="level-1">王作勤</span>
+                <span class="level-2">中国科学技术大学</span>
+                <span class="level-3">大量几何、拓扑相关，实分析</span>
+            </a></li>
+        <li><a href="https://www.dpmms.cam.ac.uk/~wtg10/" class="btn">
+                <span class="level-1">Gowers</span>
+                <span class="level-2">剑桥大学</span>
+                <span class="level-3">一些组合学</span>
+            </a></li>
+        <li><a href="https://www.cnblogs.com/torsor/p/4731153.html" class="btn">
+                <span class="level-1">谢启鸿</span>
+                <span class="level-2">复旦大学</span>
+                <span class="level-3">高等代数</span>
+            </a></li>
+        <li><a href="https://www.math.uni-bonn.de/people/assing/" class="btn">
+                <span class="level-1">Assing</span>
+                <span class="level-2">波恩大学</span>
+                <span class="level-3">数论、代数相关</span>
+            </a></li>
+        <li><a href="https://www.bananaspace.org/wiki/%E9%A6%96%E9%A1%B5" class="btn">
+                <span class="level-1">香蕉空间</span>
+            </a></li>
+        <li><a href="https://mtaylor.web.unc.edu/" class="btn">
+                <span class="level-1">Taylor</span>
+                <span class="level-2">北卡罗来纳大学</span>
+                <span class="level-3">分析与几何上较为全面的笔记</span>
+            </a></li>
+        <li><a href="https://math.mit.edu/~gs/" class="btn">
+                <span class="level-1">Strang</span>
+                <span class="level-2">麻省理工学院</span>
+                <span class="level-3">线性代数为主、微积分、微分方程等</span>
+            </a></li>
+        <li><a href="https://bimsa.net/course.php" class="btn">
+                <span class="level-1">BIMSA公开课</span>
+            </a></li>
+        <li><a href="http://home.ustc.edu.cn/~matchbox/" class="btn">
+                <span class="level-1">Ren Xuanfei</span>
+                <span class="level-2">中国科学技术大学</span>
+                <span class="level-3">实分析及一些手写讲义、思维导图</span>
+            </a></li>
+        <li><a href="https://people.maths.ox.ac.uk/greenbj/" class="btn">
+                <span class="level-1">Green</span>
+                <span class="level-2">牛津大学</span>
+                <span class="level-3">大量数论相关</span>
+            </a></li>
+        <li><a href="https://agag-gathmann.math.rptu.de/en/notes.php" class="btn">
+                <span class="level-1">Gathmann</span>
+                <span class="level-2">University of Kaiserslautern-Landau</span>
+                <span class="level-3">优秀的代数几何相关讲义，拓扑学、复分析</span>
+            </a></li>
+        <li><a href="https://chewisinho.github.io/" class="btn">
+                <span class="level-1">Sinho Chewi</span>
+                <span class="level-2">耶鲁大学</span>
+                <span class="level-3">大量概率与统计学等相关的讲义</span>
+            </a></li>
+        <li><a href="https://bruceblackadar.com/mathpubs.html" class="btn">
+                <span class="level-1">Blackadar</span>
+                <span class="level-2">内华达大学</span>
+                <span class="level-3">代数相关、实分析</span>
+            </a></li>
+        <li><a href="https://www.math.kyoto-u.ac.jp/~iritani/index.html" class="btn">
+                <span class="level-1">入谷寛</span>
+                <span class="level-2">京都大学</span>
+                <span class="level-3">微分几何</span>
+            </a></li>
+        <li><a href="https://www.math.cuhk.edu.hk/course_builder/1415/math5011/" class="btn">
+                <span class="level-1">实分析</span>
+                <span class="level-2">香港中文大学</span>
+            </a></li>
+        <li><a href="https://www.math.uzh.ch/gorodnik/" class="btn">
+                <span class="level-1">Gorodnik</span>
+                <span class="level-2">苏黎世大学</span>
+                <span class="level-3">分析与几何相关</span>
+            </a></li>
+        <li><a href="https://webspace.maths.qmul.ac.uk/b.jackson/" class="btn">
+                <span class="level-1">Jackson</span>
+                <span class="level-2">伦敦玛丽女王大学</span>
+                <span class="level-3">图论</span>
+            </a></li>
+        <li><a href="https://www.math.ucla.edu/~pak/" class="btn">
+                <span class="level-1">Pak</span>
+                <span class="level-2">加州大学洛杉矶分校</span>
+                <span class="level-3">组合学相关</span>
+            </a></li>
+        <li><a href="https://personal.math.ubc.ca/~ward/" class="btn">
+                <span class="level-1">Wald</span>
+                <span class="level-2">英属哥伦比亚大学</span>
+                <span class="level-3">微分方程、复分析等</span>
+            </a></li>
+        <li><a href="https://rdlyons.pages.iu.edu/" class="btn">
+                <span class="level-1">Lyons</span>
+                <span class="level-2">印第安纳大学</span>
+                <span class="level-3">概率与统计相关</span>
+            </a></li>
+        <li><a href="https://math.solverer.com/" class="btn">
+                <span class="level-1">Solverer</span>
+                <span class="level-2">各种数学教材的答案</span>
+            </a></li>
+        <li><a href="http://siqiliu.com/" class="btn">
+                <span class="level-1">刘思齐</span>
+                <span class="level-2">清华大学</span>
+            </a></li>
+        <li><a href="https://www.edwardfrenkel.com/" class="btn">
+                <span class="level-1">Frenkel</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">科普</span>
+            </a></li>
+        <li><a href="http://gaetan.chenevier.perso.math.cnrs.fr/" class="btn">
+                <span class="level-1">Chenevier</span>
+                <span class="level-2">巴黎高等师范学院</span>
+                <span class="level-3">代数学相关</span>
+            </a></li>
+        <li><a href="https://hextical.github.io/" class="btn">
+                <span class="level-1">Cameron</span>
+                <span class="level-2">麦克马斯特大学</span>
+                <span class="level-3">统计学相关</span>
+            </a></li>
+        <li><a href="https://www.statsref.com/HTML/index.html" class="btn">
+                <span class="level-1">Statistical Analysis Handbook</span>
+            </a></li>
+        <li><a href="https://castel.dev/" class="btn">
+                <span class="level-1">Castel</span>
+                <span class="level-2">LaTex的写作技巧和配置、代数、几何、拓扑、分析相关讲义</span>
+            </a></li>
+        <li><a href="https://www.ams.org/open-math-notes">
+                <span class="level-1">AMS Open-Math-Notes</span>
+            </a></li>
+        <li><a href="http://home.ustc.edu.cn/~tysun/" class="btn">
+                <span class="level-1">孙天阳</span>
+                <span class="level-2">中国科学技术大学</span>
+                <span class="level-3">相对全面的笔记</span>
+            </a></li>
+        <li><a href="https://www.math.uzh.ch/en/veranstaltungen" class="btn">
+                <span class="level-1">苏黎世大学</span>
+                <span class="level-1">数学学院课程网站</span>
+            </a></li>
+        <li><a href="https://achinger.impan.pl/" class="btn">
+                <span class="level-1">Achinger</span>
+                <span class="level-2">波兰科学院数学研究所</span>
+                <span class="level-3">代数相关，前沿</span>
+            </a></li>
+        <li><a href="https://people.math.ethz.ch/~acannas/" class="btn">
+                <span class="level-1">Cannas</span>
+                <span class="level-2">苏黎世联邦理工学院</span>
+                <span class="level-3">辛几何相关以及看上去不错的基础课</span>
+            </a></li>
+        <li><a href="https://homepage.sns.it/vistoli/" class="btn">
+                <span class="level-1">Vistoli</span>
+                <span class="level-2">比萨高等师范学院</span>
+                <span class="level-3">代数几何相关</span>
+            </a></li>
+        <li><a href="https://personal.math.ubc.ca/~ilaba/" class="btn">
+                <span class="level-1">laba</span>
+                <span class="level-2">英属哥伦比亚大学</span>
+                <span class="level-3">数学分析、调和分析、泛函分析等</span>
+            </a></li>
+        <li><a href="https://www.math.stonybrook.edu/~kirillov/" class="btn">
+                <span class="level-1">Kirillov</span>
+                <span class="level-2">石溪大学</span>
+                <span class="level-3">李群和李代数</span>
+            </a></li>
+        <li><a href="https://www.math.uni-hamburg.de/home/runkel/" class="btn">
+                <span class="level-1">Runkel</span>
+                <span class="level-2">汉堡大学</span>
+                <span class="level-3">代数与表示论等</span>
+            </a></li>
+        <li><a href="https://researchers.ms.unimelb.edu.au/~xgge@unimelb/" class="btn">
+                <span class="level-1">耿曦</span>
+                <span class="level-2">墨尔本大学</span>
+                <span class="level-3">随机微积分等</span>
+            </a></li>
+        <li><a href="https://projects.iq.harvard.edu/stat110/about" class="btn">
+                <span class="level-1">概率</span>
+                <span class="level-2">哈佛大学</span>
+            </a></li>
+        <li><a href="https://seeing-theory.brown.edu/" class="btn">
+                <span class="level-1">Seeing Theory（概率论）</span>
+                <span class="level-2">布朗大学</span>
+            </a></li>
+        <li><a href="https://statquest.org/" class="btn">
+                <span class="level-1">StatQuest</span>
+            </a></li>
+        <li><a href="https://perso.ens-lyon.fr/sophie.morel/" class="btn">
+                <span class="level-1">Morel</span>
+                <span class="level-2">里昂高等师范学院</span>
+                <span class="level-3">大量代数相关内容</span>
+            </a></li>
+        <li><a href="https://www.math.bgu.ac.il/~yadina/" class="btn">
+                <span class="level-1">Yadin</span>
+                <span class="level-2">内盖夫本古里安大学</span>
+                <span class="level-3">概率论相关内容</span>
+            </a></li>
+        <li><a href="https://ewintang.com/" class="btn">
+                <span class="level-1">Ewin Tang</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">有关量子和人工智能的数学</span>
+            </a></li>
+        <li><a href="https://math.berkeley.edu/~linlin/" class="btn">
+                <span class="level-1">林霖</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">物理与人工智能有关的数学、线性代数、微分方程</span>
+            </a></li>
+        <li><a href="https://www.tau.ac.il/~tsirel/" class="btn">
+                <span class="level-1">Tsirelson</span>
+                <span class="level-2">特拉维夫大学</span>
+                <span class="level-3">多而杂的分析、概率、量子信息相关内容</span>
+            </a></li>
+        <li><a href="https://davidprinz.org/" class="btn">
+                <span class="level-1">Prinz</span>
+                <span class="level-2">波恩大学</span>
+                <span class="level-3">数学物理学家</span>
+            </a></li>
+        <li><a href="https://njohnston.ca/" class="btn">
+                <span class="level-1">Johnston</span>
+                <span class="level-2">蒙特埃里森大学</span>
+                <span class="level-3">线性代数</span>
+            </a></li>
+        <li><a href="https://www.yueren.de/" class="btn">
+                <span class="level-1">Yue Ren</span>
+                <span class="level-2">杜伦大学</span>
+                <span class="level-3">热带几何、计算数学</span>
+            </a></li>
+        <li><a href="https://franksottile.github.io/" class="btn">
+                <span class="level-1">Sottile</span>
+                <span class="level-2">德克萨斯农工大学</span>
+                <span class="level-3">代数几何</span>
+            </a></li>
+        <li><a href="https://www.mit.edu/~parrilo/" class="btn">
+                <span class="level-1">Parrilo</span>
+                <span class="level-2">麻省理工学院</span>
+                <span class="level-3">代数、代数几何、优化、人工智能等</span>
+            </a></li>
+        <li><a href="https://math.berkeley.edu/~bernd/" class="btn">
+                <span class="level-1">Sturmfels</span>
+                <span class="level-2">加州大学伯克利分校</span>
+                <span class="level-3">热带几何、代数几何、交换代数、优化、拓扑、组合学、离散数学等</span>
+            </a></li>
+        <li><a href="https://www.math.ias.edu/~lurie/" class="btn">
+                <span class="level-1">Lurie</span>
+                <span class="level-2">普林斯顿高等研究院</span>
+                <span class="level-3">代数几何、组合学等高级课程</span>
+            </a></li>
+        <li><a href="https://stacks.math.columbia.edu/" class="btn">
+                <span class="level-1">The Stacks Project</span>
+                <span class="level-3">代数几何</span>
+            </a></li>
+        <li><a href="https://www.math.colostate.edu/~adams/" class="btn">
+                <span class="level-1">Adams</span>
+                <span class="level-2">科罗拉多州立大学</span>
+                <span class="level-3">组合学、拓扑数据分析、抽象代数、拓扑学、线性规划等</span>
+            </a></li>
+        <li><a href="https://people.clas.ufl.edu/henry-adams/" class="btn">
+                <span class="level-1">Adams的新主页</span>
+                <span class="level-2">佛罗里达大学</span>
+                <span class="level-3">拓扑学</span>
+            </a></li>
+        <li><a href="https://homepage.divms.uiowa.edu/~idarcy/" class="btn">
+                <span class="level-1">Darcy</span>
+                <span class="level-2">爱荷华大学</span>
+                <span class="level-3">各种拓扑学、微分方程等，分析、线性代数、离散数学</span>
+            </a></li>
+        <li><a href="https://people.maths.ox.ac.uk/nanda/" class="btn">
+                <span class="level-1">Nanda</span>
+                <span class="level-2">牛津大学</span>
+                <span class="level-3">计算代数拓扑、计算数学</span>
+            </a></li>
+        <li><a href="https://www.drmichaelrobinson.net/" class="btn">
+                <span class="level-1">Robinson</span>
+                <span class="level-2">美利坚大学</span>
+                <span class="level-3">测度论、微分方程、拓扑、数值分析、数据分析等大量应用数学课程</span>
+            </a></li>
+        <li><a href="https://webhome.auburn.edu/~hks0015/" class="btn">
+                <span class="level-1">Schenck</span>
+                <span class="level-2">奥本大学</span>
+                <span class="level-3">计算代数几何、抽象代数、线性代数、微积分、计算代数、拓扑数据分析</span>
+            </a></li>
+        <li><a href="https://www.math.ntu.edu.tw/~hchu/Calculus/" class="btn">
+                <span class="level-1">朱樺</span>
+                <span class="level-2">國立臺灣大學</span>
+                <span class="level-3">微积分</span>
+            </a></li>
+        <li><a href="https://www.math.ntu.edu.tw/~chern/" class="btn">
+                <span class="level-1">陳宜良</span>
+                <span class="level-2">國立臺灣大學</span>
+                <span class="level-3">大量应用数学相关</span>
+            </a></li>
+        <li><a href="https://mathworld.wolfram.com/" class="btn">
+                <span class="level-1">Wolfram MathWorld</span>
+            </a></li>
+        <li><a href="http://www.stat.nthu.edu.tw/~swcheng/" class="btn">
+                <span class="level-1">鄭少為</span>
+                <span class="level-2">國立清華大學</span>
+                <span class="level-3">概率统计相关</span>
+            </a></li>
+        <li><a href="https://courses.seas.harvard.edu/courses/am205/fall13/" class="btn">
+                <span class="level-1">哈佛大学应用数学课程</span>
+            </a></li>
+        <li><a href="https://stat.uchicago.edu/academics/course-info/" class="btn">
+                <span class="level-1">芝加哥大学统计学系课程主页</span>
+            </a></li>
+        <li><a href="https://sites.google.com/view/mlwm-seminar-2022" class="btn">
+                <span class="level-1">李逸</span>
+                <span class="level-2">东南大学</span>
+                <span class="level-3">微积分、分析学、数学史</span>
+            </a></li>
+        <li><a href="https://www.ma.imperial.ac.uk/~skdona/" class="btn">
+                <span class="level-1">Donaldson</span>
+                <span class="level-2">帝国理工学院</span>
+                <span class="level-3">几何分析、流形拓扑、规范理论的数学、微分几何、椭圆算子、李群、黎曼收敛、复几何等</span>
+            </a></li>
+        <li><a href="https://math.iisc.ac.in/~vamsipingali/" class="btn">
+                <span class="level-1">Pingali</span>
+                <span class="level-2">印度科学研究所</span>
+                <span class="level-3">几何分析、基础分析、流形、拓扑、代数、线性代数、黎曼几何、微积分等</span>
+            </a></li>
+        <li><a href="https://www2.math.upenn.edu/~kazdan/" class="btn">
+                <span class="level-1">Kazdan</span>
+                <span class="level-2">宾夕法尼亚大学</span>
+                <span class="level-3">分析学、线性代数、数值分析等</span>
+            </a></li>
+        <li><a href="https://www.hse.ru/en/staff/pirkovskii" class="btn">
+                <span class="level-1">Pirkovskii</span>
+                <span class="level-2">高等经济学院</span>
+                <span class="level-3">调和分析、巴拿赫代数、拓扑学、离散几何、泛函分析、非交换几何等</span>
+            </a></li>
+        <li><a href="https://geometry.mrao.cam.ac.uk/" class="btn">
+                <span class="level-1">Geometric Algebra</span>
+                <span class="level-2">剑桥大学</span>
+            </a></li>
+        <li><a href="https://eqworld.ipmnet.ru/index.htm" class="btn">
+                <span class="level-1">EqWorld</span>
+                <span class="level-3">微分方程相关</span>
+            </a></li>
+        <li><a href="https://gdeq.org/Welcome_to_GDEq.org" class="btn">
+                <span class="level-1">莫斯科独立大学微分方程的几何</span>
+            </a></li>
+        <li><a href="https://zhangshenxing.github.io/" class="btn">
+                <span class="level-1">张神星</span>
+                <span class="level-2">合肥工业大学</span>
+                <span class="level-3">代数数论等</span>
+            </a></li>
+        <li><a href="https://personal.science.psu.edu/rcv4/" class="btn">
+                <span class="level-1">Vaughan</span>
+                <span class="level-2">宾夕法尼亚大学</span>
+                <span class="level-3">分析、复分析、数论等</span>
+            </a></li>
+        <li><a href="http://faculty.bicmr.pku.edu.cn/~lxiao/" class="btn">
+                <span class="level-1">肖梁</span>
+                <span class="level-2">北京大学</span>
+                <span class="level-3">代数学等</span>
+            </a></li>
+        <li><a href="http://van-der-geer.nl/~gerard/" class="btn">
+                <span class="level-1">van der Geer</span>
+                <span class="level-2">阿姆斯特丹大学</span>
+                <span class="level-3">Siegel模等</span>
+            </a></li>
+        <li><a href="https://people.math.harvard.edu/~dafr/" class="btn">
+                <span class="level-1">Freed</span>
+                <span class="level-2">哈佛大学</span>
+                <span class="level-3">几何与量子相关</span>
+            </a></li>
+        <li><a href="https://www.cnblogs.com/XiongRuiMath" class="btn">
+                <span class="level-1">熊锐</span>
+                <span class="level-3">数学入门、同调代数、代数数论、常微分方程、泛函分析等</span>
+            </a></li>
+        <li><a href="https://friedl.app.uni-regensburg.de/index.html" class="btn">
+                <span class="level-1">Friedl</span>
+                <span class="level-3">拓扑学</span>
+            </a></li>
+		</ul>
+	</section>
+
+    <section id="物理">
+        <h2>物理</h2>
+        <ul>
+            <li><a href="https://www.goodtheorist.science/" class="btn">
+                    <span class="level-1">Hooft</span>
+                    <span class="level-2">全面的讲义和指导</span>
+                </a></li>
+		    <li><a href="http://www.damtp.cam.ac.uk/user/tong/teaching.html" class="btn">
+                    <span class="level-1">Tong</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">全面的讲义</span>
+                </a></li> 
+            <li><a href="https://newquanta.com/" class="btn">
+                    <span class="level-1">陈童</span>
+                    <span class="level-2">东华理工大学</span>
+                    <span class="level-3">优秀的四大力学讲义及引力</span>
+                </a></li>
+            <li><a href="https://sites.google.com/site/likharevegp/egp" class="btn">
+                    <span class="level-1">Essential Graduate Physics</span>
+                    <span class="level-2">四大力学</span>
+                </a></li>
+            <li><a href="https://edu.itp.phys.ethz.ch/" class="btn">
+                    <span class="level-1">苏黎世联邦理工学院</span>
+                    <span class="level-1">理论物理学院课程档案</span>
+                </a></li>
+            <li><a href="http://www.damtp.cam.ac.uk/user/rrh/" class="btn">
+                    <span class="level-1">Horgan</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">量子物理、统计物理等</span>
+                </a></li>
+            <li><a href="https://hep.physics.illinois.edu/home/serrede/" class="btn" >
+                    <span class="level-1">Errede</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                    <span class="level-3">电动力学</span>
+                </a></li>
+            <li><a href="https://farside.ph.utexas.edu/teaching.html" class="btn" >
+                    <span class="level-1">Fitzpatrick</span>
+                    <span class="level-2">德克萨斯大学奥斯汀分校</span>
+                    <span class="level-3">全面的讲义</span>
+                </a></li>
+            <li><a href="https://bohr.physics.berkeley.edu/classes/221/1112/221.html" class="btn" >
+                    <span class="level-1">量子力学</span>
+                    <span class="level-2">加州大学伯克利分校</span>
+                </a></li>
+            <li><a href="https://www.tcm.phy.cam.ac.uk/~bds10/" class="btn">
+                    <span class="level-1">Simons Lab</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">量子物理、凝聚态物理</span>
+                </a></li>
+            <li><a href="http://web.mit.edu/1.63/www/lecnote.html" class="btn">
+                    <span class="level-1">高等流体力学</span>
+                    <span class="level-2">麻省理工学院</span>
+                </a></li>
+            <li><a href="https://cmt-qo.phys.ethz.ch/education/spring-semester-2013--topological-quantum-numbers-in-condensed-m.html" class="btn">
+                    <span class="level-1">凝聚态系统中的拓扑量子数</span>
+                    <span class="level-2">苏黎世联邦理工学院</span>
+                </a></li>
+            <li><a href="http://www.damtp.cam.ac.uk/user/mem/" class="btn">
+                    <span class="level-1">McIntyre</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">地球物理学相关、流体力学</span>
+                </a></li>
+            <li><a href="https://math.nyu.edu/~childres/" class="btn">
+                    <span class="level-1">Childers</span>
+                    <span class="level-2">纽约大学</span>
+                    <span class="level-3">流体力学</span>
+                </a></li>
+            <li><a href="https://mcgreevy.physics.ucsd.edu/" class="btn" >
+                    <span class="level-1">McGreevy</span>
+                    <span class="level-2">加州大学圣圣地亚哥分校</span>
+                    <span class="level-3">量子场论、量子信息、量子力学、统计力学、弦论、相对论</span>
+                </a></li>
+            <li><a href="http://www.blau.itp.unibe.ch/Lecturenotes.html" class="btn" >
+                    <span class="level-1">伯尔尼大学引力与弦论组</span>
+                </a></li>
+            <li><a href="http://cosmology.amsterdam/education/cosmology/" class="btn" >
+                    <span class="level-1">阿姆斯特丹大学宇宙学组</span>
+                </a></li>
+            <li><a href="https://campuspress.yale.edu/vdbosch/" class="btn">
+                    <span class="level-1">Van den Bosch</span>
+                    <span class="level-2">耶鲁大学</span>
+                    <span class="level-3">天体物理与宇宙学相关</span>
+                </a></li>
+            <li><a href="https://www.physics.utoronto.ca/~luke/PHY2403F/Homepage.html" class="btn" >
+                    <span class="level-1">量子场论</span>
+                    <span class="level-2">多伦多大学</span>
+                </a></li>
+            <li><a href="https://www.slac.stanford.edu/~mpeskin/" class="btn" >
+                    <span class="level-1">Peskin</span>
+                    <span class="level-2">斯坦福大学</span>
+                    <span class="level-3">量子场论</span>
+                </a></li>
+            <li><a href="http://theory.caltech.edu/~preskill/" class="btn">
+                    <span class="level-1">Preskill</span>
+                    <span class="level-2">加州理工学院</span>
+                    <span class="level-3">量子信息、统计物理、场论</span>
+                </a></li>
+            <li><a href="http://www.damtp.cam.ac.uk/user/dbs26/teaching.html" class="btn">
+                    <span class="level-1">Skinner</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">数学物理方法、量子力学、量子场论、超对称</span>
+                </a></li>
+            <li><a href="https://homepages.uc.edu/~argyrepc/" class="btn">
+                    <span class="level-1">Argyres</span>
+                    <span class="level-2">辛辛那提大学</span>
+                    <span class="level-3">超对称</span>
+                </a></li>
+            <li><a href="http://www.physics.umd.edu/courses/" class="btn" >
+                    <span class="level-1">马里兰大学物理学院课程</span>
+                </a></li>
+            <li><a href="http://stp.clarku.edu/notes/" class="btn" >
+                    <span class="level-1">统计与热物理课程开发项目</span>
+                </a></li>
+            <li><a href="http://galileo.phys.virginia.edu/classes/252/home.html" class="btn" >
+                    <span class="level-1">现代物理学</span>
+                    <span class="level-2">弗吉尼亚大学</span>
+                    <span class="level-3">一系列现代物理学的课程</span>
+                </a></li>
+            <li><a href="https://quantummechanics.ucsd.edu/ph130a/" class="btn" >
+                    <span class="level-1">量子力学</span>
+                    <span class="level-2">加州大学圣地亚哥分校</span>
+                </a></li>
+            <li><a href="https://www.phys.lsu.edu/~jarrell/" class="btn" >
+                    <span class="level-1">Jarrell</span>
+                    <span class="level-2">路易斯安那大学</span>
+                    <span class="level-3">固体物理、电动力学、多体物理</span>
+                </a></li>
+            <li><a href="https://math.ucr.edu/home/baez/" class="btn" >
+                    <span class="level-1">Baez</span>
+                    <span class="level-2">加州大学河滨分校</span>
+                    <span class="level-3">大量物理相关内容，略杂，包括物理书籍列表</span>
+                </a></li>
+            <li><a href="https://www.cds.caltech.edu/~marsden/" class="btn" >
+                    <span class="level-1">Marsden</span>
+                    <span class="level-2">加州理工学院</span>
+                    <span class="level-3">控制论与动力系统</span>
+                </a></li>
+            <li><a href="https://sites.astro.caltech.edu/~golwala/" class="btn" >
+                    <span class="level-1">Golwala</span>
+                    <span class="level-2">加州理工学院</span>
+                    <span class="level-3">经典力学、电磁学、量子力学</span>
+                </a></li>
+            <li><a href="https://sili-math.github.io/" class="btn">
+                    <span class="level-1">李思</span>
+                    <span class="level-2">清华大学</span>
+                </a></li>
+            <li><a href="https://yzhxxzxy.github.io/cn/teaching.html" class="btn">
+                    <span class="level-1">余钊焕</span>
+                    <span class="level-2">中山大学</span>
+                    <span class="level-3">量子场论、数学物理方法及其他高能物理相关</span>
+                </a></li>
+            <li><a href="https://hepnotes.com/" class="btn">
+                    <span class="level-1">高能物理笔记</span>
+                </a></li>
+            <li><a href="https://uwaterloo.ca/physics-of-information-lab/teaching" class="btn">
+                    <span class="level-1">Kempf</span>
+                    <span class="level-2">滑铁卢大学</span>
+                    <span class="level-3">宇宙学与相对论</span>
+                </a></li>
+                <li><a href="https://mediaspace.illinois.edu/channel/Fall+2020+Physics+582+%28QFT+I%29+Zoom+Lectures/173996162" class="btn">
+                    <span class="level-1">量子场论</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                </a></li>
+            <li><a href="https://eduardo.physics.illinois.edu/homepage/" class="btn">
+                    <span class="level-1">Fradkin</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                    <span class="level-3">量子力学、场论、经典力学、统计力学、凝聚态等</span>
+                </a></li>
+            <li><a href="https://courses.physics.illinois.edu/" class="btn">
+                    <span class="level-1">格兰杰工程学院课程网站</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                    <span class="level-3">包括大量工程、计算机和物理课程</span>
+                </a></li>
+            <li><a href="https://knzhou.github.io/" class="btn">
+                    <span class="level-1">Kelvin Zhou</span>
+                    <span class="level-2">加州大学伯克利分校</span>
+                    <span class="level-3">较为全面的物理学资料</span>
+                </a></li>
+            <li><a href="http://faculty.bicmr.pku.edu.cn/~guochuanthiang/" class="btn">
+                    <span class="level-1">程国传</span>
+                    <span class="level-2">北京大学北京国际数学中心</span>
+                    <span class="level-3">物理与几何相关，数学物理、量子理论、拓扑等</span>    
+                </a></li>
+            <li><a href="https://www.math.uni-hamburg.de/home/schweigert/" class="btn">
+                    <span class="level-1">Schweigert</span>
+                    <span class="level-2">汉堡大学</span>
+                    <span class="level-3">代数与数学物理、量子物理学与几何、函数论、共形场论、数论、线性代数等</span>
+               </a></li>
+            <li><a href="https://oxfordtopquantum.tiddlyspot.com/" class="btn">
+                    <span class="level-1">Topological Quantum</span>
+                    <span class="level-2">牛津大学</span>
+                </a></li>
+            <li><a href="https://phy.ntnu.edu.tw/~changmc/" class="btn">
+                    <span class="level-1">张明哲</span>
+                    <span class="level-2">国立台湾师范大学</span>
+                    <span class="level-3">比较全面的物理学资料</span>
+                </a></li>
+            <li><a href="https://gdenittis.wordpress.com/geometric-aspects-of-quantum-condensed-matter/" class="btn">
+                    <span class="level-1">Geometric Aspects of Quantum Condensed Matter</span>
+                    <span class="level-2">Giuseppe De Nittis</span>
+                    <span class="level-3">以及一些其他的物理学相关内容</span>
+                </a></li>
+            <li><a href="https://www.physics.rutgers.edu/~gmoore/" class="btn">
+                    <span class="level-1">Goore</span>
+                    <span class="level-2">罗格斯大学</span>
+                    <span class="level-3">数学物理、群论等</span>
+                </a></li>
+            <li><a href="https://canvas.harvard.edu/courses/39684" class="btn">
+                    <span class="level-1">凝聚态物理专题：物质的量子相</span>
+                    <span class="level-2">哈佛大学</span>
+                </a></li>
+            <li><a href="http://www.ai4physics.cn/" class="btn">
+                    <span class="level-1">计算物理</span>
+                    <span class="level-2">华中师范大学</span>
+                </a></li>
+            <li><a href="https://www.damtp.cam.ac.uk/user/ho/" class="btn">
+                    <span class="level-1">Osborn</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">理论高能粒子物理学组，共形场论、群论、量子场论、标准模型等</span>
+                </a></li>
+            <li><a href="https://www.damtp.cam.ac.uk/user/cet34/teaching/" class="btn">
+                    <span class="level-1">Thomas</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">统计物理相关、标准模型、数学物理</span>
+                </a></li>
+            <li><a href="https://www.damtp.cam.ac.uk/user/hsr1000/teaching.html" class="btn">
+                    <span class="level-1">Reall</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">电磁学、统计物理、广义相对论、黑洞</span>
+                </a></li>
+            <li><a href="https://www.tcm.phy.cam.ac.uk/~achc2/" class="btn">
+                    <span class="level-1">Anson Cheung</span>
+                    <span class="level-2">剑桥大学</span>
+                    <span class="level-3">相变相关</span>
+                </a></li>
+            <li><a href="https://www.cond-mat.de/" class="btn">
+                    <span class="level-1">Cond-Mat</span>
+                    <span class="level-2">量子力学、量子计算、固体理论以及其他材料物理、凝聚态物理</span>
+                </a></li>
+            <li><a href="http://theory.caltech.edu/~dsd/" class="btn">
+                    <span class="level-1">Simons-Duffin</span>
+                    <span class="level-2">加州理工学院</span>
+                    <span class="level-3">计算物理、统计力学、共形场论等</span>
+                </a></li>
+            <li><a href="https://markwilde.com/teaching/" class="btn">
+                    <span class="level-1">Wilde</span>
+                    <span class="level-2">康奈尔大学</span>
+                    <span class="level-3">大量量子计算、量子信息相关，以及数学物理、计算物理等</span>
+                </a></li>
+            <li><a href="https://web.mit.edu/aram/www/" class="btn">
+                    <span class="level-1">Aram</span>
+                    <span class="level-2">麻省理工学院</span>
+                    <span class="level-3">量子信息、量子力学等</span>
+                </a></li>
+            <li><a href="https://www.physics.rutgers.edu/~haule/" class="btn">
+                    <span class="level-1">Haule</span>
+                    <span class="level-2">罗格斯大学</span>
+                    <span class="level-3">计算物理、多体物理、量子力学、</span>
+                </a></li>
+            <li><a href="https://sites.lsa.umich.edu/kai-sun/" class="btn">
+                    <span class="level-1">孙凯</span>
+                    <span class="level-2">密歇根大学</span>
+                    <span class="level-3">凝聚态物理、固体物理、经典场论与电动力学、量子力学</span>
+                </a></li>
+            <li><a href="https://www.cryst.ehu.es/" class="btn">
+                    <span class="level-1">毕尔巴鄂晶体学服务器</span>
+                </a></li>
+            <li><a href="https://person.zju.edu.cn/yuan/" class="btn">
+                    <span class="level-1">袁野</span>
+                    <span class="level-2">浙江大学</span>
+                    <span class="level-3">电动力学、量子场论</span>
+                </a></li>
+            <li><a href="http://www.hartmanhep.net/" class="btn">
+                    <span class="level-1">Hartman</span>
+                    <span class="level-2">康奈尔大学</span>
+                    <span class="level-3">量子信息、量子引力、广义相对论、黑洞等</span>
+                </a></li>
+            <li><a href="https://www.math.columbia.edu/~woit/wordpress/" class="btn">
+                    <span class="level-1">Woit</span>
+                    <span class="level-2">哥伦比亚大学</span>
+                    <span class="level-3">博客，常批评弦论，可以链接到很多有用的网站</span>
+                </a></li>
+            <li><a href="https://www.thp.uni-koeln.de/trebst/index.shtml" class="btn">
+                    <span class="level-1">科隆大学计算凝聚态物理研究组</span>
+                </a></li>
+            <li><a href="http://zhiqihuang.top/" class="btn">
+                    <span class="level-1">黄志琦</span>
+                    <span class="level-2">中山大学</span>
+                    <span class="level-3">广义相对论、宇宙学、数学物理方法等</span>
+                </a></li>
+            <li><a href="https://physicsfaculty.bnu.edu.cn/Public/web/application/faculty/guowenan/QM/index.html" class="btn">
+                    <span class="level-1">郭文安</span>
+                    <span class="level-2">北京师范大学</span>
+                    <span class="level-3">量子力学</span>
+                </a></li>
+            <li><a href="https://phyw.people.ust.hk/" class="btn">
+                     <span class="level-1">王一</span>
+                     <span class="level-2">香港科技大学</span>
+                     <span class="level-3">广义相对论、宇宙学、量子场论、Mathematica等</span>
+                </a></li>
+            <li><a href="https://lui-apolo.github.io/" class="btn">
+                    <span class="level-1">Apolo</span>
+                    <span class="level-2">BIMSA</span>
+                    <span class="level-3">普通物理学、TTbar</span>
+                </a></li>
+            <li><a href="http://staff.ustc.edu.cn/~yjdeng/EM2022/EM2022.html" class="btn">
+                    <span class="level-1">中国科学技术大学电磁学课程</span>
+                </a></li>
+            <li><a href="https://sites.google.com/site/snawata/home?authuser=0" class="btn">
+                    <span class="level-1">Nawata</span>
+                    <span class="level-2">复旦大学</span>
+                    <span class="level-3">量子场论、共形场论、微分几何、引力、弦论等</span>
+                </a></li>
+            <li><a href="https://xgwen.mit.edu/" class="btn">
+                    <span class="level-1">文小刚</span>
+                    <span class="level-2">麻省理工学院</span>
+                </a></li>
+            <li><a href="https://ucan.physics.utoronto.ca/" class="btn">
+                    <span class="level-1">超冷原子新闻</span>
+                    <span class="level-2">多伦多大学</span>
+                </a></li>
+            <li><a href="https://everettyou.github.io/teaching/" class="btn">
+                    <span class="level-1">尤亦庄</span>
+                    <span class="level-2">加州大学圣地亚哥分校</span>
+                    <span class="level-3">量子物理、凝聚态物理、统计物理、Mathematica等</span>
+                </a></li>
+            <li><a href="https://www.phy.pku.edu.cn/jhchen/index.htm" class="btn">
+                    <span class="level-1">北京大学纳米电子学与原位量子输运实验室</span>
+                    <span class="level-3">量子信息物理原理、固体物理学</span>
+                </a></li>
+        </ul>
+    </section>
+
+    <section id="计科及其他">
+        <h2>计科及其他</h2>
+        <ul>
+            <li><a href="https://www.complexityexplorer.org/" class="btn" >
+                    <span class="level-1">Complex Explorer</span>
+                </a></li>
+            <li><a href="http://physicsbaseddeeplearning.org/intro.html" class="btn" >
+                    <span class="level-1">Physics-Based Deep Learning</span>
+                </a></li>
+            <li><a href="https://csdiy.wiki/" class="btn">
+                    <span class="level-1">CS自学指南</span>
+                </a></li>
+            <li><a href="https://www.cs.cornell.edu/courses/cs485/2006sp/" class="btn">
+                    <span class="level-1">Mathematical Foundations for the Information Age</span>
+                    <span class="level-2">康奈尔大学</span>
+                </a></li>
+            <li><a href="https://www.kaggle.com/" class="btn">
+                    <span class="level-1">Kaggle</span>
+                </a></li>
+            <li><a href="https://leetcode.com/" class="btn">
+                    <span class="level-1">Leetcode</span>
+                </a></li>
+            <li><a href="https://leetcode.cn/" class="btn">
+                    <span class="level-1">力扣</span>
+                </a></li>
+            <li><a href="https://www.hackerrank.com/dashboard" class="btn">
+                    <span class="level-1">Hacker Rank</span>
+                </a></li>
+            <li><a href="https://www.runoob.com/" class="btn">
+                    <span class="level-1">菜鸟教程</span>
+                </a></li>
+            <li><a href="https://www.hello-algo.com/" class="btn">
+                    <span class="level-1">Hello算法</span>
+                </a></li>
+            <li><a href="https://learnmoderncpp.com/">
+                    <span class="level-1">Learn Modern C++</span>
+                </a></li>
+            <li><a href="https://www.w3school.com.cn/index.html">
+                    <span class="level-1">W3school</span>
+                </a></li>
+            <li><a href="https://pathfinder.w3schools.com/" class="btn">
+                    <span class="level-1">W3schools</span>
+                </a></li>
+            <li><a href="https://www.di.ens.fr/~fbach/" class="btn">
+                    <span class="level-1">Bach</span>
+                    <span class="level-2">巴黎高等师范学院</span>
+                    <span class="level-3">机器学习、人工智能相关</span>
+                </a></li>
+            <li><a href="https://books.halfrost.com/leetcode/" class="btn">
+                    <span class="level-1">LeetCode Book</span>
+                </a></li>
+            <li><a href="https://datawhalechina.github.io/easy-rl/#/" class="btn">
+                    <span class="level-1">Easy-RL</span>
+                    <span class="level-2">强化学习教程</span>
+                </a></li>
+            <li><a href="https://tcs.nju.edu.cn/wiki/index.php?title=Main_Page" class="btn">
+                    <span class="level-1">南京大学理论计算机科学组</span>
+                    <span class="level-3">大量算法相关及量子计算、概率论、数值分析等</span>
+                </a></li>
+            <li><a href="https://people.iiis.tsinghua.edu.cn/~jianli/" class="btn">
+                    <span class="level-1">李健</span>
+                    <span class="level-2">清华大学</span>
+                    <span class="level-3">算法等</span>
+                </a></li>
+            <li><a href="https://www.cs.purdue.edu/homes/hmaji/" class="btn">
+                    <span class="level-1">Maji</span>
+                    <span class="level-2">普渡大学</span>
+                    <span class="level-3">密码学等</span>
+                </a></li>
+            <li><a href="https://www.jeremykun.com/primers/" class="btn">
+                    <span class="level-1">Kun</span>
+                    <span class="level-2">谷歌</span>
+                    <span class="level-3">大量计算机科学相关数学</span>
+                </a></li>
+            <li><a href="https://code.golf/" class="btn">
+                    <span class="level-1">Code Golf</span>
+                </a></li>
+            <li><a href="https://jeffe.cs.illinois.edu/" class="btn">
+                    <span class="level-1">Erickson</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                    <span class="level-3">算法、计算拓扑（拓扑数据分析）等</span>
+                </a></li>
+            <li><a href="http://www.physics.umd.edu/courses/CourseWare/EssentialMathematica/" class="btn">
+                    <span class="level-1">理科生必备Mathematica</span>
+                    <span class="level-2">马里兰大学</span>
+                    <span class="level-3">可以进入物理学课程网站</span>
+                </a></li>
+            <li><a href="https://q3r.github.io/" class="btn">
+                    <span class="level-1">Jason Li</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">算法等</span>
+                </a></li>
+            <li><a href="https://www.deep-ml.com/" class="btn">
+                    <span class="level-1">ML Code Challenges</span>
+                </a></li>
+            <li><a href="https://www.stat.cmu.edu/~cshalizi/" class="btn">
+                    <span class="level-1">Shalizi</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">数据分析相关</span>
+                </a></li>
+            <li><a href="https://pdos.csail.mit.edu/6.828/2018/schedule.html" class="btn">
+                    <span class="level-1">操作系统工程</span>
+                    <span class="level-2">麻省理工学院</span>
+                </a></li>
+            <li><a href="https://www.scottaaronson.com/" class="btn">
+                    <span class="level-1">Aronson</span>
+                    <span class="level-2">德克萨斯大学奥斯汀分校</span>
+                    <span class="level-3">量子信息、复杂性等</span>
+                </a></li>
+            <li><a href="https://johnwatrous.com/" class="btn">
+                    <span class="level-1">Watrous</span>
+                    <span class="level-2">滑铁卢大学</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://www.cs.umd.edu/class/" class="btn">
+                    <span class="level-1">马里兰大学计算机专业课程网页</span>
+                </a></li>
+            <li><a href="https://qi.rub.de/walter" class="btn">
+                    <span class="level-1">Walter</span>
+                    <span class="level-2">波鸿鲁尔大学</span>
+                    <span class="level-3">量子计算、理论计算机科学相关</span>
+                </a></li>
+            <li><a href="https://moodle.ruhr-uni-bochum.de/enrol/index.php?id=59881" class="btn">
+                    <span class="level-1">量子信息与计算课程Moodle</span>
+                    <span class="level-2">波鸿鲁尔大学</span>
+                </a></li>
+            <li><a href="https://www.weizmann.ac.il/math/vidick/" class="btn">
+                    <span class="level-1">Vidick</span>
+                    <span class="level-2">魏茨曼科学研究所</span>
+                    <span class="level-3">算法、密码学、量子计算等</span>
+                </a></li>
+            <li><a href="https://anuraganshu.seas.harvard.edu/" class="btn">
+                    <span class="level-1">Ansu</span>
+                    <span class="level-2">哈佛大学</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://groups.uni-paderborn.de/fg-qi/index.html" class="btn">
+                    <span class="level-1">Gharibian</span>
+                    <span class="level-2">帕德伯恩大学</span>
+                    <span class="level-3">量子计算、算法、计算理论</span>
+                </a></li>
+            <li><a href="https://math.mit.edu/~shor/" class="btn">
+                    <span class="level-1">Shor</span>
+                    <span class="level-2">麻省理工学院</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://qubit.guide/" class="btn">
+                    <span class="level-1">量子信息科学导论</span>
+                </a></li>
+            <li><a href="https://www.cs.ox.ac.uk/people/bob.coecke/" class="btn">
+                    <span class="level-1">Coecke</span>
+                    <span class="level-2">牛津大学</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://www.henryyuen.net/#about" class="btn">
+                    <span class="level-1">Henry Yuen</span>
+                    <span class="level-2">哥伦比亚大学</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/~odonnell/" class="btn">
+                    <span class="level-1">O'Donnell</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">量子计算</span>
+                </a></li>
+            <li><a href="https://lilianweng.github.io/" class="btn">
+                    <span class="level-1">翁荔</span>
+                </a></li>
+            <li><a href="https://web.mit.edu/2.111/www/index.htm" class="btn">
+                    <span class="level-1">量子计算</span>
+                    <span class="level-2">麻省理工学院</span>
+                </a></li>
+            <li><a href="https://fermima.com/" class="btn">
+                    <span class="level-1">Fermi Ma</span>
+                    <span class="level-2">西蒙斯研究所</span>
+                    <span class="level-3">量子密码学</span>
+                </a></li>
+            <li><a href="https://courses.grainger.illinois.edu/cs598qc/sp2024/" class="btn">
+                    <span class="level-1">量子复杂性前沿</span>
+                    <span class="level-2">伊利诺伊大学香槟分校</span>
+                </a></li>
+            <li><a href="https://mitqcrypto.github.io/" class="btn">
+                    <span class="level-1">量子密码学</span>
+                    <span class="level-2">麻省理工学院</span>
+                </a></li>
+            <li><a href="https://www.cl.cam.ac.uk/teaching/2425/" class="btn">
+                    <span class="level-1">剑桥大学计算机科学与技术系课程页面</span>
+                </a></li>
+            <li><a href="https://people.maths.bris.ac.uk/~csxam/" class="btn">
+                    <span class="level-1">Montanaro</span>
+                    <span class="level-2">布里斯托大学</span>
+                    <span class="level-3">量子计算相关、计算理论、算法</span>
+                </a></li>
+            <li><a href="https://www.dr-qubit.org/" class="btn">
+                    <span class="level-1">Toby</span>
+                    <span class="level-2">伦敦大学学院</span>
+                    <span class="level-3">大量量子计算、复杂性相关内容</span>
+                </a></li>
+            <li><a href="https://pages.cs.wisc.edu/~dieter/" class="btn">
+                    <span class="level-1">van Melkebeek</span>
+                    <span class="level-2">威斯康星大学麦迪逊分校</span>
+                    <span class="level-3">复杂性、计算理论、算法、离散数学、量子信息、随机化等</span>
+                </a></li>
+            <li><a href="https://programminghistorian.org/" class="btn">
+                    <span class="level-1">Programming Historian</span>
+                </a></li>
+            <li><a href="https://www.nowcoder.com/" class="btn">
+                    <span class="level-1">牛客网</span>
+                </a></li>
+            <li><a href="https://developers.google.com/machine-learning?hl=zh-cn" class="btn">
+                    <span class="level-1">Google机器学习</span>
+                </a></li>
+            <li><a href="https://www.codecademy.com/learn" class="btn">
+                    <span class="level-1">Codecademy</span>
+                </a></li>
+            <li><a href="https://www.freecodecamp.org/learn/" class="btn">
+                    <span class="level-1">FreeCodeCamp</span>
+                </a></li>
+            <li><a href="http://infolab.stanford.edu/~ullman/" class="btn">
+                    <span class="level-1">Ullman</span>
+                    <span class="level-2">斯坦福大学</span>
+                    <span class="level-3">数据库相关，编译器等</span>
+                </a></li>
+            <li><a href="https://suif.stanford.edu/~courses/cs243/" class="btn">
+                    <span class="level-1">斯坦福大学程序分析与优化课程</span>
+                </a></li>
+            <li><a href="https://web.stanford.edu/class/cs343/" class="btn">
+                    <span class="level-1">斯坦福大学高级编译器专题课程</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/~fp/" class="btn">
+                    <span class="level-1">Felleisen</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">编译器、类型语言、逻辑等</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15745-s14/www/index.html" class="btn">
+                    <span class="level-1">卡耐基梅隆大学优化编译器课程</span>
+                </a></li>
+            <li><a href="http://graphics.cs.cmu.edu/?page_id=16" class="btn">
+                    <span class="level-1">卡耐基梅隆大学计算机图形学课程</span>
+                </a></li>
+            <li><a href="https://graphics.stanford.edu/" class="btn">
+                    <span class="level-1">斯坦福大学计算机图形学实验室</span>
+                </a></li>
+            <li><a href="https://algs4.cs.princeton.edu/home/" class="btn">
+                    <span class="level-1">普林斯顿大学算法</span>
+                </a></li>
+            <li><a href="https://www.cs.princeton.edu/courses/archive/fall12/cos226/info.php" class="btn">
+                    <span class="level-1">普林斯顿大学算法与数据结构课程</span>
+                </a></li>
+            <li><a href="https://www.cs.princeton.edu/~wayne/contact/" class="btn">
+                    <span class="level-1">Wayne</span>
+                    <span class="level-2">普林斯顿大学</span>
+                    <span class="level-3">算法、Python、Java编程等</span>
+                </a></li>
+            <li><a href="https://cs229.stanford.edu/" class="btn">
+                    <span class="level-1">斯坦福大学机器学习课程</span>
+                </a></li>
+            <li><a href="https://cs224d.stanford.edu/" class="btn">
+                    <span class="level-1">斯坦福大学自然语言处理的深度学习课程</span>
+                </a></li>
+            <li><a href="https://okmij.org/ftp/" class="btn">
+                    <span class="level-1">Oleg Kiselyov 函数式编程</span>
+                </a></li>
+            <li><a href="https://www3.cs.stonybrook.edu/~gu/" class="btn">
+                    <span class="level-1">顾险峰</span>
+                    <span class="level-2">石溪大学</span>
+                    <span class="level-3">计算共形几何</span>
+                </a></li>
+            <li><a href="https://courses.d2l.ai/" class="btn">
+                    <span class="level-1">D2L</span>
+                    <span class="level-3">机器学习、深度学习等，李沐</span>
+                </a></li>
+            <li><a href="https://cseweb.ucsd.edu/~alchern/" class="btn">
+                    <span class="level-1">Albert Chern</span>
+                    <span class="level-2">加州大学圣地亚哥分校</span>
+                    <span class="level-3">计算机图形学、物理模拟、离散微分几何、MATLAB、Mathematica等</span>
+                </a></li>
+            <li><a href="https://basics.sjtu.edu.cn/~chen/" class="btn">
+                    <span class="level-1">陈翌佳</span>
+                    <span class="level-2">上海交通大学</span>
+                    <span class="level-3">算法、复杂性、线性代数等</span>
+                </a></li>
+            <li><a href="https://stellar.mit.edu/S/course/6/sp16/6.045/index.html" class="btn">
+                    <span class="level-1">麻省理工学院自动机、计算与复杂性课程</span>
+                </a></li>
+            <li><a href="https://introtcs.org/public/index.html" class="btn">
+                    <span class="level-1">理论计算机科学导论</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/~mblum/" class="btn">
+                    <span class="level-1">Blum</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">复杂性</span>
+                </a></li>
+            <li><a href="https://wikimpri.dptinfo.ens-cachan.fr/doku.php?id=start" class="btn">
+                    <span class="level-1">巴黎计算机科学研究硕士项目主页</span>
+                </a></li>
+            <li><a href="https://hcsoso.github.io/" class="btn">
+                    <span class="level-1">张颂之</span>
+                    <span class="level-2">达特茅斯学院</span>
+                    <span class="level-3">离散数学、算法、计算拓扑、计算理论等</span>
+                </a></li>
+            <li><a href="https://julien-tierny.github.io/" class="btn">
+                    <span class="level-1">Tierny</span>
+                    <span class="level-2">索邦大学</span>
+                    <span class="level-3">拓扑数据分析、科学可视化、计算拓扑、计算机图形学相关</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/~kmcrane/index.html#top" class="btn">
+                    <span class="level-1">Crane</span>
+                    <span class="level-2">卡耐基梅隆大学</span>
+                    <span class="level-3">计算机图形学、离散微分几何等</span>
+                </a></li>
+            <li><a href="https://courses.csail.mit.edu/" class="btn">
+                    <span class="level-1">麻省理工学院计算机科学与人工智能实验室课程网站</span>
+                </a></li>
+            <li><a href="https://www.cs.purdue.edu/homes/tamaldey/" class="btn">
+                    <span class="level-1">Tamaldey</span>
+                    <span class="level-2">普渡大学</span>
+                    <span class="level-3">算法、计算几何、计算拓扑、拓扑数据分析</span>
+                </a></li>
+            <li><a href="https://personal.utdallas.edu/~kyle.fox/" class="btn">
+                    <span class="level-1">Fox</span>
+                    <span class="level-2">德克萨斯大学达拉斯分校</span>
+                    <span class="level-3">计算几何、算法</span>
+                </a></li>
+            <li><a href="https://cs.brown.edu/courses/" class="btn">
+                    <span class="level-1">布朗大学计算机科学课程</span>
+                </a></li>
+            <li><a href="https://planarity.org/" class="btn">
+                    <span class="level-1">平面图的优化算法</span>
+                </a></li>
+            <li><a href="https://www.cs.jhu.edu/~misha/Fall09/" class="btn">
+                    <span class="level-1">约翰霍普金斯大学计算机图形学高级专题：离散微分几何</span>
+                </a></li>
+            <li><a href="https://cs.idc.ac.il/~smozes/" class="btn">
+                    <span class="level-1">Mozes</span>
+                    <span class="level-2">赖赫曼大学</span>
+                    <span class="level-3">算法、计算复杂性等</span>
+                </a></li>
+            <li><a href="https://stat37411.github.io/" class="btn">
+                    <span class="level-1">芝加哥大学拓扑数据分析课程</span>
+                </a></li>
+            <li><a href="https://www.enseignement.polytechnique.fr/informatique/INF556/index.html" class="btn">
+                    <span class="level-1">巴黎综合理工学院拓扑数据分析课程</span>
+                </a></li>
+            <li><a href="https://www.sci.utah.edu/~beiwang/" class="btn">
+                    <span class="level-1">Bei Wang</span>
+                    <span class="level-2">犹他大学</span>
+                    <span class="level-3">计算拓扑、离散结构、数据可视化、计算几何等</span>
+                </a></li>
+            <li><a href="https://sites.google.com/ucsd.edu/dsc291-190-tda" class="btn">
+                    <span class="level-1">加州大学圣地亚哥分校拓扑数据分析课程</span>
+                </a></li>
+            <li><a href="https://cs170.org/" class="btn">
+                    <span class="level-1">加州大学伯克利分校“高效算法与棘手问题”课程</span>
+                </a></li>
+            <li><a href="https://www.cs.cmu.edu/~15451/" class="btn">
+                    <span class="level-1">卡耐基梅隆大学算法设计与分析课程</span>
+                </a></li>
+            <li><a href="https://web.stanford.edu/class/cs161/" class="btn">
+                    <span class="level-1">斯坦福大学算法设计与分析课程</span>
+                </a></li>
+            <li><a href="https://eecs376.org/" class="btn">
+                    <span class="level-1">密歇根大学计算机科学基础课程</span>
+                </a></li>
+            <li><a href="https://www.cs.washington.edu/academics/courses/" class="btn">
+                    <span class="level-1">华盛顿大学计算机科学与工程学院课程</span>
+                </a></li>
+            <li><a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4" class="btn">
+                    <span class="level-1">Natual Number Game</span>
+                </a></li>
+            <li><a href="https://leanprover-community.github.io/mathematics_in_lean/" class="btn">
+                    <span class="level-1">Mathematics in Lean</span>
+                </a></li>
+            <li><a href="https://leanprover-community.github.io/" class="btn">
+                    <span class="level-1">Lean Community</span>
+                </a></li>
+            <li><a href="https://web.stanford.edu/class/archive/cs/cs109/cs109.1232/" class="btn">
+                    <span class="level-1">斯坦福大学计算机科学家的概率课程（2022）</span>
+                </a></li>
+            <li><a href="https://web.stanford.edu/class/archive/cs/cs109/cs109.1234/" class="btn">
+                    <span class="level-1">斯坦福大学计算机科学家的概率课程（2023）</span>
+                </a></li>
+            <li><a href="http://wiki.cs.hse.ru/Заглавная_страница" class="btn">
+                    <span class="level-1">高等经济学院计算机科学系课程</span>
+                </a></li>
+            <li><a href="https://speech.ee.ntu.edu.tw/~hylee/index.php" class="btn">
+                    <span class="level-1">李宏毅</span>
+                    <span class="level-2">國立臺灣大學</span>
+                    <span class="level-3">机器学习相关</span>
+                </a></li>
+            <li><a href="https://willett.psd.uchicago.edu/" class="btn">
+                    <span class="level-1">Willett</span>
+                    <span class="level-2">芝加哥大学</span>
+                    <span class="level-3">机器学习的数学基础</span>
+                </a></li>
+            <li><a href="https://cs.stanford.edu/~ermon/" class="btn">
+                    <span class="level-1">Ermon</span>
+                    <span class="level-2">斯坦福大学</span>
+                    <span class="level-3">概率图模型、深度生成模型等</span>
+                </a></li>
+            <li><a href="https://stanford.edu/~cpiech/bio/index.html" class="btn">
+                    <span class="level-1">Piech</span>
+                    <span class="level-2">斯坦福大学</span>
+                    <span class="level-3">计算机科学家的概率、编程方法等</span>
+                </a></li>
+            <li><a href="https://courses.cs.washington.edu/courses/cse373/19sp/" class="btn">
+                    <span class="level-1">华盛顿大学数据结构与算法课程</span>
+                </a></li>
+            <li><a href="https://snap.stanford.edu/class/cs224w-2023/" class="btn">
+                    <span class="level-1">斯坦福大学图机器学习课程</span>
+                </a></li>
+            <li><a href="https://people.eecs.berkeley.edu/~minilek/" class="btn">
+                    <span class="level-1">Minilek</span>
+                    <span class="level-2">伯克利大学</span>
+                    <span class="level-3">算法相关</span>
+                </a></li>
+            <li><a href="https://sites.google.com/uchicago.edu/stat-37710-cmsc-35400-s23" class="btn">
+                    <span class="level-1">芝加哥大学机器学习课程</span>
+                </a></li>
+            <li><a href="https://congma1028.github.io/" class="btn">
+                    <span class="level-1">Cong Ma</span>
+                    <span class="level-2">芝加哥大学</span>
+                    <span class="level-3">机器学习、数据科学、概率模型等</span>
+                </a></li>
+            <li><a href="https://sites.google.com/view/mlwm-seminar-2022" class="btn">
+                    <span class="level-1">面向在职数学家的机器学习</span>
+                </a></li>
+            <li><a href="https://cv-xueba.club/index.html#intro" class="btn">
+                    <span class="level-1">北京邮电大学计算机视觉团队CV-Xueba（鲁鹏）</span>
+                </a></li>
+            <li><a href="https://www.learnpytorch.io/" class="btn">
+                    <span class="level-1">Zero to Mastery Learn PyTorch for Deep Learning</span>
+                </a></li>
+            <li><a href="https://math.gordon.edu/" class="btn">
+                    <span class="level-1">戈登学院数学和计算机科学课程</span>
+                </a></li>
+            <li><a href="https://www.learncpp.com/" class="btn">
+                    <span class="level-1">Learn C++</span>
+                </a></li>
+            <li><a href="https://www.codedex.io/" class="btn">
+                    <span class="level-1">Codedex</span>
+                </a></li>
+            <li><a href="https://nndl.github.io/" class="btn">
+                    <span class="level-1">神经网络与深度学习</span>
+                </a></li>
+            <li><a href="https://cs182.sist.shanghaitech.edu.cn/index.html" class="btn">
+                    <span class="level-1">Introduction to Machine Learning</span>
+                    <span class="level-2">上海科技大学</span>
+                </a></li>
+            <li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/" class="btn">
+                    <span class="level-1">Python Data Science Handbook</span>
+                </a></li>
+        </ul> 
+    </section>
+
+    <section id="综合">
+        <h2>综合</h2>
+        <ul>
+            <li><a href="https://wuli.wiki/forum" class="btn">
+                <span class="level-1">小时百科</span>
+            </a></li>
+            <li><a href="https://ncatlab.org/nlab/show/HomePage" class="btn">
+                <span class="level-1">nLab</span>
+            </a></li>
+            <li><a href="https://openstax.org/" class="btn">
+                <span class="level-1">OpenStax</span>
+            </a></li>
+            <li><a href="https://arxiv.org/#" class="btn">
+                <span class="level-1">Arxiv</span>
+            </a></li>
+            <li><a href="https://icourse.club/course/" class="btn">
+                <span class="level-1">中科评课社区</span>
+            </a></li>
+            <li><a href="https://www.classcentral.com/" class="btn">
+                <span class="level-1">Class Central</span>
+            </a></li>
+            <li><a href="https://www.wolframalpha.com/" class="btn">
+                <span class="level-1">Wolfram</span>
+            </a></li>
+            <li><a href="https://podcasts.ox.ac.uk/" class="btn">
+                <span class="level-1">牛津大学播客</span>
+            </a></li>
+            <li><a href="https://agi.safe.ai/" class="btn">
+                <span class="level-1">人类的最后考试</span>
+            </a></li>            
+        </ul>
+    </section>
+
+	<section id="电子书网站">
+      <h2>电子书网站</h2>
+      <ul>
+        <li><a href="https://z-library.sk/" class="btn">
+            <span class="level-1">Zlibrary</span>			
+        </a></li>
+        <li><a href="https://libgen.li/" class="btn">
+            <span class="level-1">Library Genesis</span>			
+        </a></li>
+        <li><a href="https://www.pdfdrive.com/" class="btn">
+            <span class="level-1">PDFdrive</span>			
+        </a></li>
+        <li><a href="https://archive.org/" class="btn">
+            <span class="level-1">Internet Archive</span>			
+        </a></li>
+        <li><a href="https://annas-archive.org/" class="btn">
+            <span class="level-1">Annas Archive</span>			
+        </a></li>
+        <li><a href="https://librarygenesis.net/" class="btn">
+            <span class="level-1">Library Genesis导航</span>			
+        </a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Z-Library" class="btn">
+            <span class="level-1">Zlibrary导航（维基）</span>			
+        </a></li>
+      </ul>
+    </section>
+
+  <section id="论坛">
+        <h2>论坛</h2>
+        <ul>
+            <li><a href="https://meta.stackexchange.com/" class="btn">
+                <span class="level-1">Stack Exchange</span>			
+            </a></li>
+        <li><a href="https://chaoli.club/index.php/conversations/all" class="btn">
+                <span class="level-1">超理论坛</span>			
+            </a></li>
+        <li><a href="https://github.com/" class="btn">
+                <span class="level-1">GitHub</span>			
+            </a></li>
+        <li><a href="https://www.csdn.net/" class="btn">
+                <span class="level-1">CSDN</span>			
+            </a></li>
+        <li><a href="https://www.manitori.xyz/" class="btn">
+                <span class="level-1">弦圈</span>			
+            </a></li>
+        <li><a href="https://www.physicsoverflow.org/" class="btn">
+                <span class="level-1">Physics Overflow</span>			
+            </a></li>
+        </ul>
+  </section>
+
+    <section id="工具">
+        <h2>工具</h2>
+        <ul>
+            <li><a href="https://www.openread.academy/zh" class="btn">
+                <span class="level-1">Openread</span>			
+            </a></li>
+        <li><a href="https://www.yanweb.top/" class="btn">
+                <span class="level-1">科研导航</span>			
+            </a></li>
+        <li><a href="https://approach0.xyz/search/" class="btn">
+                <span class="level-1">Approach Zero</span>			
+            </a></li>
+        <li><a href="https://sci-hub.ee/" class="btn">
+                <span class="level-1">Sci-Hub</span>			
+            </a></li>
+        <li><a href="https://master.math.msu.ru/en" class="btn">
+                <span class="level-1">莫大数学项目</span>			
+            </a></li>
+        <li><a href="http://pk.math.msu.ru/ru/master/news" class="btn">
+                <span class="level-1">莫大数学项目消息</span>			
+            </a></li>
+        <li><a href="https://www.scribd.com/home" class="btn">
+                <span class="level-1">Scribd</span>			
+            </a></li>
+        <li><a href="https://scribd.downloader.tips/" class="btn">
+                <span class="level-1">Scribd下载器</span>			
+            </a></li>
+        <li><a href="https://approach0.xyz/search/" class="btn">
+                <span class="level-1">Approach Zero</span>			
+            </a></li>        
+        </ul>
+    </section>
+
+    <section id="研究所">
+        <h2>研究所</h2>
+        <ul>
+            <li><a href="https://itmp.msu.ru/en/" class="btn">
+                <span class="level-1">数学与理论物理研究所</span>
+                <span class="level-2">ITMP</span>			
+            </a></li>
+            <li><a href="https://www.ictp.it/" class="btn">
+                    <span class="level-1">国际理论物理中心</span>
+                    <span class="level-2">ICTP</span>			
+                </a></li>
+            <li><a href="https://www.sissa.it/" class="btn">
+                    <span class="level-1">国际高等研究学校 SISSA</span>
+                    <span class="level-2">SISSA</span>			
+                </a></li>
+            <li><a href="https://www.mpp.mpg.de/" class="btn">
+                    <span class="level-1">马克斯普朗克物理学研究所</span>
+                    <span class="level-2">MPP</span>			
+                </a></li>
+            <li><a href="https://www.aei.mpg.de/" class="btn">
+                    <span class="level-1">马克斯普朗克引力物理研究所</span>
+                    <span class="level-2">AEI</span>			
+                </a></li>
+            <li><a href="https://www.mpim-bonn.mpg.de/" class="btn">
+                    <span class="level-1">马克斯普朗克数学研究所</span>
+                    <span class="level-2">MPIM</span>
+                </a></li>
+            <li><a href="https://www.mis.mpg.de/" class="btn">
+                    <span class="level-1">马克斯普朗克科学数学研究所</span>
+                    <span class="level-2">MIS</span>			
+                </a></li>
+            <li><a href="https://www.mathematics.uni-bonn.de/hcm" class="btn">
+                    <span class="level-1">豪斯多夫数学中心</span>
+                    <span class="level-2">HCM</span>			
+                </a></li>
+            <li><a href="https://www.ihes.fr/" class="btn">
+                    <span class="level-1">高等科学研究所</span>
+                    <span class="level-2">HES</span>			
+                </a></li>
+            <li><a href="https://www.newton.ac.uk/" class="btn">
+                    <span class="level-1">艾萨克牛顿数学科学研究所</span>
+                    <span class="level-2">INI</span>			
+                </a></li>
+            <li><a href="https://perimeterinstitute.ca/" class="btn">
+                    <span class="level-1">圆周研究所</span>			
+                </a></li>
+            <li><a href="https://www.ias.edu/" class="btn">
+                    <span class="level-1">普林斯顿高等研究院</span>
+                    <span class="level-2">IAS</span>			
+                </a></li>
+            <li><a href="https://www.claymath.org/library/" class="btn">
+                    <span class="level-1">克莱数学研究所</span>
+                    <span class="level-2">CMI</span>			
+                </a></li>
+            <li><a href="https://scgp.stonybrook.edu/" class="btn">
+                    <span class="level-1">西蒙斯几何与物理研究中心</span>
+                    <span class="level-2">SCGP</span>			
+            </a></li>
+            <li><a href="https://www.kitp.ucsb.edu/" class="btn">
+                    <span class="level-1">卡弗里理论物理研究所</span>
+                    <span class="level-2">KITP</span>			
+                </a></li>
+            <li><a href="https://www.ipmu.jp/" class="btn">
+                    <span class="level-1">卡弗里宇宙物理学与数学研究所</span>
+                    <span class="level-2">IPMU</span>			
+                </a></li>
+            <li><a href="https://www.yukawa.kyoto-u.ac.jp/en-GB/" class="btn">
+                    <span class="level-1">汤川理论物理研究所</span>
+                    <span class="level-2">YITP</span>			
+                </a></li>
+            <li><a href="https://ymsc.tsinghua.edu.cn/xshd/zxgkk/jqgkk.htm" class="btn">
+                    <span class="level-1">清华大学丘成桐数学科学中心</span>
+                    <span class="level-2">YSMC</span>			
+                </a></li>
+            <li><a href="https://www.bimsa.cn/zh-CN/research/course/index.html" class="btn">
+                    <span class="level-1">北京雁栖湖应用数学研究院</span>
+                    <span class="level-2">BIMSA</span>			
+                </a></li>
+            <li><a href="https://yauc.seu.edu.cn/" class="btn">
+                    <span class="level-1">东南大学丘成桐中心</span>
+                    <span class="level-2">YAUC</span>			
+                </a></li>
+            <li><a href="https://srmc.pku.edu.cn/" class="btn">
+                    <span class="level-1">中俄数学中心</span>
+                    <span class="level-2">SRMC</span>			
+                </a></li>
+            <li><a href="https://bicmr.pku.edu.cn/cn/" class="btn">
+                    <span class="level-1">北京国际数学研究中心</span>
+                    <span class="level-2">BICMR</span>			
+                </a></li>
+            <li><a href="http://www.mcm.ac.cn/" class="btn">
+                    <span class="level-1">中国科学院晨兴数学中心</span>
+                    <span class="level-2">MCM</span>			
+                </a></li>
+            <li><a href="https://kits.ucas.ac.cn/" class="btn">
+                    <span class="level-1">卡弗里高等科学研究所</span>
+                    <span class="level-2">KITS</span>			
+                </a></li>
+            <li><a href="https://www.simis.cn/" class="btn">
+                    <span class="level-1">上海数学与交叉科学研究院</span>
+                    <span class="level-2">SIMIS</span>			
+                </a></li>
+            <li><a href="https://scms.fudan.edu.cn/" class="btn">
+                    <span class="level-1">上海数学中心</span>
+                    <span class="level-2">SCMS</span>			
+                </a></li>
+            <li><a href="https://pcft.ustc.edu.cn/main.htm" class="btn">
+                    <span class="level-1">彭桓武高能基础物理研究中心</span>
+                    <span class="level-2">PCFT</span>			
+                </a></li>
+            <li><a href="https://igp.ustc.edu.cn/main.htm" class="btn">
+                    <span class="level-1">几何与物理研究中心</span>
+                    <span class="level-2">IGP</span>			
+                </a></li>
+            <li><a href="http://www.iasm.zju.edu.cn/main.htm" class="btn">
+                    <span class="level-1">浙江大学数学高等研究院</span>
+                    <span class="level-2">IASM</span>			
+                </a></li>
+            <li><a href="https://tdli.sjtu.edu.cn/CN" class="btn">
+                    <span class="level-1">李政道研究所</span>
+                    <span class="level-2">TDLI</span>			
+                </a></li>
+            <li><a href="https://its.westlake.edu.cn/index.htm" class="btn">
+                    <span class="level-1">西湖大学理论科学研究院</span>
+                    <span class="level-2">ITS</span>			
+                </a></li>
+            <li><a href="https://ncts.ntu.edu.tw/indexall.php" class="btn">
+                    <span class="level-1">國家理論科學研究中心（台湾）</span>
+                </a></li>
+            <li><a href="https://www.mi.ras.ru/index.php?c=main&l=1" class="btn">
+                    <span class="level-1">斯捷科洛夫数学研究所</span>	
+                </a></li>
+            <li><a href="http://www.itp.ac.ru/en/" class="btn">
+                    <span class="level-1">朗道理论物理研究所</span>		
+                </a></li>
+            <li><a href="https://mccme.ru/ru/nmu/" class="btn">
+                    <span class="level-1">莫斯科独立大学</span>
+                </a></li>
+        </ul>
+  </section>
+
+  <section id="LaTex">
+    <h2>LaTex</h2>
+    <ul>
+        <li><a href="https://www.latexstudio.net/" class="btn">
+                <span class="level-1">LaTex工作室</span>			
+            </a></li>
+        <li><a href="http://www.uinio.com/Math/LaTex/" class="btn">
+                <span class="level-1">通用Latex数学公式语法手册</span>			
+            </a></li>
+        <li><a href="https://www.amyxun.com/" class="btn">
+                <span class="level-1">公式编辑器与矢量绘图</span>			
+            </a></li>
+        <li><a href="https://cn.overleaf.com/project" class="btn">
+                <span class="level-1">Overleaf</span>			
+            </a></li>
+        <li><a href="https://www.mathcha.io/" class="btn">
+                <span class="level-1">Mathcha</span>			
+            </a></li>   
     </ul>
-  </nav>
+</section>
 
-  <header>
-    <h1>Rico's Personal Page</h1>
-  </header>
+<section id="AI工具">
+    <h2>AI工具</h2>
+    <ul>
+        <li><a href="https://chat.eqing.tech/" class="btn">
+                <span class="level-1">EasyChat</span>			
+            </a></li>
+        <li><a href="https://chat.deepseek.com/" class="btn">
+                <span class="level-1">DeepSeek</span>			
+            </a></li>
+        <li><a href="https://grok.com/" class="btn">
+                <span class="level-1">Grok</span>			
+            </a></li>
+        <li><a href="https://kimi.moonshot.cn/" class="btn">
+                <span class="level-1">Kimi</span>
+            </a></li>
+        <li><a href="https://chat.qwen.ai/" class="btn">
+                <span class="level-1">千问</span>
+            </a></li>
+        <li><a href="https://hailuoai.com/" class="btn">
+                <span class="level-1">海螺AI</span>
+            </a></li>
+        <li><a href="https://www.doubao.com/chat/?from_login=1" class="btn">
+                <span class="level-1">豆包</span>
+            </a></li>
+        <li><a href="https://tongyi.aliyun.com/" class="btn">
+                <span class="level-1">通义</span>
+            </a></li>
+        <li><a href="https://yuanbao.tencent.com/chat/naQivTmsDa/66e5b38f-b853-11ef-ac08-3680afcc0b24" class="btn">
+                <span class="level-1">腾讯元宝</span>
+            </a></li>
+        <li><a href="https://yiyan.baidu.com/" class="btn">
+                <span class="level-1">文心一言</span>
+            </a></li>
+        <li><a href="https://www.tiangong.cn/" class="btn">
+                <span class="level-1">天工</span>
+            </a></li>
+        <li><a href="https://xinghuo.xfyun.cn/desk" class="btn">
+                <span class="level-1">讯飞星火</span>
+            </a></li>
+        <li><a href="https://chatglm.cn/main/alltoolsdetail?lang=zh" class="btn">
+                <span class="level-1">智谱清言</span>
+            </a></li>
+        <li><a href="https://metaso.cn/" class="btn">
+                 <span class="level-1">秘塔AI搜索</span>
+            </a></li>
+        <li><a href="https://www.coze.cn/home" class="btn">
+                <span class="level-1">扣子</span>			
+            </a></li>
+        <li><a href="https://www.coze.com/home" class="btn">
+                <span class="level-1">Coze</span>			
+            </a></li>
+        <li><a href="https://flowith.io/blank" class="btn">
+                 <span class="level-1">Flowith</span>
+            </a></li>
+        <li><a href="https://poe.com/" class="btn">
+                <span class="level-1">POE</span>			
+            </a></li>
+        <li><a href="https://github.com/LiLittleCat/awesome-free-chatgpt/" class="btn">
+                <span class="level-1">GPT工具汇总</span>			
+            </a></li>
+        <li><a href="https://www.helicard.com/" class="btn">
+                <span class="level-1">科研工具集合</span>			
+            </a></li>
 
-  <section class="introduction">
-    <h2>About Me</h2>
-    <p>Hello!</p>
-    <p>I'm Rico.</p>
-    <p>I'm using this space to record my study notes and other things.</p>
-    <p>I'll also jot down some random thoughts here:<a href="https://tinymind.me/RicoWang5">My Blog</a></p>
-  </section>
+        
+    </ul>
+</section>
 
-  <section class="about-me">
-    <h2>Experience</h2>
-    <p></p>
-  </section>
+</div>
+
+<script>
+// 添加菜单切换按钮到DOM
+const menuButton = document.createElement('button');
+menuButton.className = 'menu-toggle';
+menuButton.innerHTML = '☰';
+document.body.appendChild(menuButton);
+
+// 菜单切换功能
+menuButton.addEventListener('click', () => {
+  document.querySelector('.sidebar').classList.toggle('active');
+});
+
+// 滚动动画
+const sections = document.querySelectorAll('section');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => {
+  observer.observe(section);
+});
+
+// 平滑滚动
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+
+// 添加动态背景效果
+const header = document.querySelector('header');
+header.addEventListener('mousemove', (e) => {
+  const { clientX, clientY } = e;
+  const x = Math.round((clientX / window.innerWidth) * 100);
+  const y = Math.round((clientY / window.innerHeight) * 100);
+  
+  header.style.background = `linear-gradient(${x}deg, var(--secondary-color), var(--primary-color))`;
+});
+
+// 添加搜索功能
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const content = document.querySelector('.content');
+    searchResults.style.display = searchTerm ? 'block' : 'none';
+    
+    if (!searchTerm) {
+        searchResults.innerHTML = '';
+        return;
+    }
+
+    // 清除之前的搜索结果
+    searchResults.innerHTML = '';
+    
+    // 搜索所有文本内容
+    const sections = content.querySelectorAll('section');
+    let results = [];
+    
+    sections.forEach(section => {
+        const sectionId = section.id;
+        const sectionTitle = section.querySelector('h2').textContent;
+        const links = section.querySelectorAll('a');
+        
+        links.forEach(link => {
+            const text = link.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                results.push({
+                    title: link.textContent,
+                    section: sectionTitle,
+                    element: link
+                });
+            }
+        });
+    });
+
+    // 显示搜索结果
+    results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'search-result-item';
+        resultItem.textContent = `${result.title} (${result.section})`;
+        
+        resultItem.addEventListener('click', () => {
+            result.element.scrollIntoView({ behavior: 'smooth' });
+            // 如果在移动设备上，点击后关闭侧边栏
+            if (window.innerWidth <= 768) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+        
+        searchResults.appendChild(resultItem);
+    });
+});
+
+// 点击其他地方时隐藏搜索结果
+document.addEventListener('click', function(e) {
+    if (!searchResults.contains(e.target) && e.target !== searchInput) {
+        searchResults.style.display = 'none';
+    }
+});
+
+</script>
 
 </body>
 </html>
