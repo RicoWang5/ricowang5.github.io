@@ -65,24 +65,60 @@ h2 {
     box-shadow: var(--shadow);
 }
 
+h3 {
+    font-size: 28px;
+    margin: 30px 0 15px;
+    padding: 10px;
+    background-color: rgba(75, 107, 138, 0.8);
+    color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
 /* 侧边栏样式 */
 .sidebar {
     position: fixed;
     left: 0;
     top: 0;
-    width: 200px;
+    width: 250px;
     height: 100%;
     background-color: var(--secondary-color);
     color: var(--light-text);
-    padding: 20px;
+    padding: 20px 0;
     box-shadow: var(--shadow);
     z-index: 2;
     transition: var(--transition);
+    overflow-y: auto;
+}
+
+.nav-category {
+    margin-bottom: 10px;
+}
+
+.nav-category > .nav-title {
+    display: block;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--light-text);
+    background-color: rgba(75, 107, 138, 0.5);
+    cursor: pointer;
+}
+
+.nav-subcategory {
+    padding-left: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.nav-subcategory.active {
+    max-height: 500px;
 }
 
 .sidebar a {
     display: block;
-    padding: 15px 20px;
+    padding: 12px 20px;
     margin: 5px 0;
     color: var(--light-text);
     text-decoration: none;
@@ -100,13 +136,14 @@ h2 {
 
 /* 内容区域样式 */
 .content {
-    margin-left: 240px;
+    margin-left: 250px;
     transition: var(--transition);
+    padding: 0 20px;
 }
 
 section {
     background-color: white;
-    margin: 20px;
+    margin: 20px 0;
     padding: 30px;
     border-radius: 15px;
     box-shadow: var(--shadow);
@@ -161,12 +198,15 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    color: white;
+    font-size: 1.2em;
 }
 
 /* 响应式布局 */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .sidebar {
         transform: translateX(-100%);
+        width: 280px;
     }
     
     .sidebar.active {
@@ -222,10 +262,59 @@ ul li {
 }
 
 /* 响应式调整 */
+@media (max-width: 768px) {
+    ul {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+    
+    h2 {
+        font-size: 28px;
+        padding: 12px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    section {
+        padding: 20px 15px;
+    }
+}
+
 @media (max-width: 480px) {
     ul {
         grid-template-columns: 1fr;
         /* 在移动端使用单列布局 */
+    }
+
+    .content {
+        padding: 0 10px;
+    }
+
+    section {
+        padding: 15px 10px;
+    }
+
+    header {
+        padding: 30px 0;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+    
+    h2 {
+        font-size: 24px;
+        padding: 10px;
+    }
+
+    h3 {
+        font-size: 20px;
     }
 }
 
@@ -346,20 +435,21 @@ ul {
     }
 }
 
-/* 在现有的 CSS 中添加 */
+/* 搜索框样式 */
 .search-container {
-    margin-bottom: 20px;
+    margin: 0 20px 20px;
     padding: 0 10px;
 }
 
 #searchInput {
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--light-text);
     margin-bottom: 10px;
+    font-size: 1em;
 }
 
 #searchInput::placeholder {
@@ -370,14 +460,20 @@ ul {
     max-height: 200px;
     overflow-y: auto;
     display: none;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .search-result-item {
-    padding: 8px;
+    padding: 12px;
     cursor: pointer;
     color: var(--light-text);
     border-radius: 4px;
     margin-bottom: 5px;
+    transition: var(--transition);
+    font-size: 0.9em;
 }
 
 .search-result-item:hover {
@@ -409,57 +505,247 @@ ul {
     background: #3a5a7a;
 }
 
-/* 优化搜索结果容器 */
-.search-results {
+/* 侧边栏滚动条 */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #3a5a7a;
+}
+
+/* 遮罩层，用于移动设备点击侧边栏外关闭侧边栏 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* 动态添加的返回顶部按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    z-index: 999;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+}
+
+.back-to-top:hover {
+    background-color: #3a5a7a;
+}
+
+/* 二级导航标题样式 */
+.category-title {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 992px) {
+    .category-title {
+        font-size: 1.3em;
+        padding: 12px 0;
+    }
+}
+
+/* 更新后的高亮效果样式 */
+.highlight-button {
+    animation: pulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 15px 5px rgba(75, 107, 138, 0.8); /* 使用主色调 */
+    transform: scale(1.05);
+    z-index: 10;
+    position: relative;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 15px 2px rgba(75, 107, 138, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 20px 5px rgba(75, 107, 138, 0.9);
+    }
+    100% {
+        box-shadow: 0 0 15px 2px rgba(75, 107, 138, 0.6);
+    }
+}
+
+.page-transition {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 最近访问记录样式 */
+.recent-visits {
+    margin: 0 20px 20px;
+    padding: 0 10px;
+}
+
+.recent-visits-title {
+    font-weight: 600;
+    padding: 10px 0;
+    color: var(--light-text);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.recent-visits-list {
     max-height: 200px;
     overflow-y: auto;
-    display: none;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    padding: 5px;
-    margin-top: 5px;
 }
 
-.search-result-item {
-    padding: 10px;
+.recent-visits-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.recent-visits-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.recent-visits-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.recent-visit-item {
+    padding: 8px 10px;
+    margin: 5px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.9em;
     cursor: pointer;
     color: var(--light-text);
-    border-radius: 4px;
-    margin-bottom: 5px;
     transition: var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recent-visit-item:hover {
+    background: var(--primary-color);
+}
+
+.no-recent {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
     font-size: 0.9em;
+    text-align: center;
+    padding: 10px;
 }
 
 
-    </style>
+</style>
     </head>
 
 <body>
+    <!-- 遮罩层 -->
+    <div class="overlay"></div>
 
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top">↑</button>
+
+    <!-- 侧边栏 -->
     <div class="sidebar">
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="搜索...">
             <div id="searchResults" class="search-results"></div>
         </div>
-        <a href="#视频课网站">视频课网站</a>
-        <a href="#数学">数学</a>
-        <a href="#物理">物理</a>
-        <a href="#计科及其他">计科及其他</a>
-        <a href="#综合">综合</a>
-        <a href="#电子书网站">电子书网站</a>
-        <a href="#论坛">论坛</a>
-        <a href="#工具">工具</a>
-        <a href="#研究所">研究所</a>    
-        <a href="#LaTex">LaTex</a>
-        <a href="#AI工具">AI工具</a>
+
+
+        <!-- 添加到侧边栏中，放在搜索框下方 -->
+<div class="recent-visits">
+    <div class="recent-visits-title">最近访问</div>
+    <div id="recentVisitsList" class="recent-visits-list">
+        <div class="no-recent">暂无访问记录</div>
+    </div>
+</div>
+
+
+        <div class="nav-category">
+            <div class="nav-title">网络</div>
+            <div class="nav-subcategory">
+                <a href="#视频课网站">视频课网站</a>
+                <a href="#电子书网站">电子书网站</a>
+                <a href="#论坛">论坛</a>
+            </div>
+        </div>
+
+        <div class="nav-category">
+            <div class="nav-title">学科课程</div>
+            <div class="nav-subcategory">
+                <a href="#数学">数学</a>
+                <a href="#物理">物理</a>
+                <a href="#计科及其他">计科及其他</a>
+            </div>
+        </div>
+
+        <div class="nav-category">
+            <div class="nav-title">工具汇总</div>
+            <div class="nav-subcategory">
+                <a href="#综合工具">综合工具</a>    
+                <a href="#LaTex工具">LaTex工具</a>
+                <a href="#AI工具">AI工具</a>
+            </div>
+        </div>
+
+        <div class="nav-category">
+            <div class="nav-title">研究所</div>
+            <div class="nav-subcategory">
+                <a href="#研究所">研究所</a>
+            </div>
+        </div>
     </div>
 
+    <button class="menu-toggle">☰</button>
+
     <div class="content">
-	<header>
-		<h1>学习站</h1>
-		<p>少年为学者，每一书皆作数过尽之.</p>
-        <p>我们不能做离岸浮冰上的垂钓者.</p>
-	</header>
+        <header>
+            <h1>学习站</h1>
+            <p>少年为学者，每一书皆作数过尽之.</p>
+            <p>我们不能做离岸浮冰上的垂钓者.</p>
+        </header>
 
 	<section id="视频课网站">
 		<h2>视频课网站</h2>
@@ -495,6 +781,63 @@ ul {
             </a></li>
 		</ul>
 	</section>
+
+    <section id="电子书网站">
+      <h2>电子书网站</h2>
+      <ul>
+        <li><a href="https://z-library.sk/" class="btn">
+            <span class="level-1">Zlibrary</span>			
+        </a></li>
+        <li><a href="https://libgen.li/" class="btn">
+            <span class="level-1">Library Genesis</span>			
+        </a></li>
+        <li><a href="https://www.pdfdrive.com/" class="btn">
+            <span class="level-1">PDFdrive</span>			
+        </a></li>
+        <li><a href="https://archive.org/" class="btn">
+            <span class="level-1">Internet Archive</span>			
+        </a></li>
+        <li><a href="https://annas-archive.org/" class="btn">
+            <span class="level-1">Annas Archive</span>			
+        </a></li>
+        <li><a href="https://librarygenesis.net/" class="btn">
+            <span class="level-1">Library Genesis导航</span>			
+        </a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Z-Library" class="btn">
+            <span class="level-1">Zlibrary导航（维基）</span>			
+        </a></li>
+      </ul>
+    </section>
+
+      <section id="论坛">
+        <h2>论坛</h2>
+        <ul>
+            <li><a href="https://meta.stackexchange.com/" class="btn">
+                <span class="level-1">Stack Exchange</span>			
+            </a></li>
+        <li><a href="https://chaoli.club/index.php/conversations/all" class="btn">
+                <span class="level-1">超理论坛</span>			
+            </a></li>
+        <li><a href="https://github.com/" class="btn">
+                <span class="level-1">GitHub</span>			
+            </a></li>
+        <li><a href="https://www.csdn.net/" class="btn">
+                <span class="level-1">CSDN</span>			
+            </a></li>
+        <li><a href="https://www.manitori.xyz/" class="btn">
+                <span class="level-1">弦圈</span>			
+            </a></li>
+        <li><a href="https://www.physicsoverflow.org/" class="btn">
+                <span class="level-1">Physics Overflow</span>			
+            </a></li>
+        <li><a href="https://www.zhihu.com/" class="btn">
+                <span class="level-1">知乎</span>		
+            </a></li>
+        <li><a href="https://www.douban.com/" class="btn">
+                <span class="level-1">豆瓣</span>			
+            </a></li>
+        </ul>
+  </section>
   
     <section id="数学">
 		<h2>数学</h2>
@@ -1927,124 +2270,148 @@ ul {
         </ul> 
     </section>
 
-    <section id="综合">
-        <h2>综合</h2>
+    <section id="综合工具">
+        <h2>综合工具</h2>
         <ul>
             <li><a href="https://wuli.wiki/forum" class="btn">
-                <span class="level-1">小时百科</span>
-            </a></li>
+                    <span class="level-1">小时百科</span>
+                </a></li>
             <li><a href="https://ncatlab.org/nlab/show/HomePage" class="btn">
-                <span class="level-1">nLab</span>
-            </a></li>
+                    <span class="level-1">nLab</span>
+                </a></li>
             <li><a href="https://openstax.org/" class="btn">
-                <span class="level-1">OpenStax</span>
-            </a></li>
+                    <span class="level-1">OpenStax</span>
+                </a></li>
             <li><a href="https://arxiv.org/#" class="btn">
-                <span class="level-1">Arxiv</span>
-            </a></li>
+                    <span class="level-1">Arxiv</span>
+                </a></li>
             <li><a href="https://icourse.club/course/" class="btn">
-                <span class="level-1">中科评课社区</span>
-            </a></li>
+                    <span class="level-1">中科评课社区</span>
+                </a></li>
             <li><a href="https://www.classcentral.com/" class="btn">
-                <span class="level-1">Class Central</span>
-            </a></li>
+                    <span class="level-1">Class Central</span>
+                </a></li>
             <li><a href="https://www.wolframalpha.com/" class="btn">
-                <span class="level-1">Wolfram</span>
-            </a></li>
+                    <span class="level-1">Wolfram</span>
+                </a></li>
             <li><a href="https://podcasts.ox.ac.uk/" class="btn">
-                <span class="level-1">牛津大学播客</span>
-            </a></li>
+                    <span class="level-1">牛津大学播客</span>
+                </a></li>
             <li><a href="https://agi.safe.ai/" class="btn">
-                <span class="level-1">人类的最后考试</span>
-            </a></li>            
-        </ul>
-    </section>
-
-	<section id="电子书网站">
-      <h2>电子书网站</h2>
-      <ul>
-        <li><a href="https://z-library.sk/" class="btn">
-            <span class="level-1">Zlibrary</span>			
-        </a></li>
-        <li><a href="https://libgen.li/" class="btn">
-            <span class="level-1">Library Genesis</span>			
-        </a></li>
-        <li><a href="https://www.pdfdrive.com/" class="btn">
-            <span class="level-1">PDFdrive</span>			
-        </a></li>
-        <li><a href="https://archive.org/" class="btn">
-            <span class="level-1">Internet Archive</span>			
-        </a></li>
-        <li><a href="https://annas-archive.org/" class="btn">
-            <span class="level-1">Annas Archive</span>			
-        </a></li>
-        <li><a href="https://librarygenesis.net/" class="btn">
-            <span class="level-1">Library Genesis导航</span>			
-        </a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Z-Library" class="btn">
-            <span class="level-1">Zlibrary导航（维基）</span>			
-        </a></li>
-      </ul>
-    </section>
-
-  <section id="论坛">
-        <h2>论坛</h2>
-        <ul>
-            <li><a href="https://meta.stackexchange.com/" class="btn">
-                <span class="level-1">Stack Exchange</span>			
-            </a></li>
-        <li><a href="https://chaoli.club/index.php/conversations/all" class="btn">
-                <span class="level-1">超理论坛</span>			
-            </a></li>
-        <li><a href="https://github.com/" class="btn">
-                <span class="level-1">GitHub</span>			
-            </a></li>
-        <li><a href="https://www.csdn.net/" class="btn">
-                <span class="level-1">CSDN</span>			
-            </a></li>
-        <li><a href="https://www.manitori.xyz/" class="btn">
-                <span class="level-1">弦圈</span>			
-            </a></li>
-        <li><a href="https://www.physicsoverflow.org/" class="btn">
-                <span class="level-1">Physics Overflow</span>			
-            </a></li>
-        </ul>
-  </section>
-
-    <section id="工具">
-        <h2>工具</h2>
-        <ul>
+                    <span class="level-1">人类的最后考试</span>
+                </a></li>
             <li><a href="https://www.openread.academy/zh" class="btn">
-                <span class="level-1">Openread</span>			
-            </a></li>
-        <li><a href="https://www.yanweb.top/" class="btn">
-                <span class="level-1">科研导航</span>			
-            </a></li>
-        <li><a href="https://approach0.xyz/search/" class="btn">
-                <span class="level-1">Approach Zero</span>			
-            </a></li>
-        <li><a href="https://sci-hub.ee/" class="btn">
-                <span class="level-1">Sci-Hub</span>			
-            </a></li>
-        <li><a href="https://master.math.msu.ru/en" class="btn">
-                <span class="level-1">莫大数学项目</span>			
-            </a></li>
-        <li><a href="http://pk.math.msu.ru/ru/master/news" class="btn">
-                <span class="level-1">莫大数学项目消息</span>			
-            </a></li>
-        <li><a href="https://www.scribd.com/home" class="btn">
-                <span class="level-1">Scribd</span>			
-            </a></li>
-        <li><a href="https://scribd.downloader.tips/" class="btn">
-                <span class="level-1">Scribd下载器</span>			
-            </a></li>
-        <li><a href="https://approach0.xyz/search/" class="btn">
-                <span class="level-1">Approach Zero</span>			
-            </a></li>        
+                    <span class="level-1">Openread</span>			
+                </a></li>
+            <li><a href="https://www.yanweb.top/" class="btn">
+                    <span class="level-1">科研导航</span>			
+                </a></li>
+            <li><a href="https://approach0.xyz/search/" class="btn">
+                    <span class="level-1">Approach Zero</span>			
+                </a></li>
+            <li><a href="https://sci-hub.ee/" class="btn">
+                    <span class="level-1">Sci-Hub</span>	
+                </a></li>
+            <li><a href="https://www.scribd.com/home" class="btn">
+                    <span class="level-1">Scribd</span>			
+                </a></li>
+            <li><a href="https://scribd.downloader.tips/" class="btn">
+                    <span class="level-1">Scribd下载器</span>			
+                </a></li>
+            <li><a href="https://approach0.xyz/search/" class="btn">
+                    <span class="level-1">Approach Zero</span>			
+                </a></li>              
         </ul>
     </section>
 
-    <section id="研究所">
+  <section id="LaTex工具">
+    <h2>LaTex工具</h2>
+    <ul>
+        <li><a href="https://www.latexstudio.net/" class="btn">
+                <span class="level-1">LaTex工作室</span>			
+            </a></li>
+        <li><a href="http://www.uinio.com/Math/LaTex/" class="btn">
+                <span class="level-1">通用Latex数学公式语法手册</span>			
+            </a></li>
+        <li><a href="https://www.amyxun.com/" class="btn">
+                <span class="level-1">公式编辑器与矢量绘图</span>			
+            </a></li>
+        <li><a href="https://cn.overleaf.com/project" class="btn">
+                <span class="level-1">Overleaf</span>			
+            </a></li>
+        <li><a href="https://www.mathcha.io/" class="btn">
+                <span class="level-1">Mathcha</span>			
+            </a></li>   
+    </ul>
+</section>
+
+<section id="AI工具">
+    <h2>AI工具</h2>
+    <ul>
+        <li><a href="https://chat.eqing.tech/" class="btn">
+                <span class="level-1">EasyChat</span>			
+            </a></li>
+        <li><a href="https://chat.deepseek.com/" class="btn">
+                <span class="level-1">DeepSeek</span>			
+            </a></li>
+        <li><a href="https://grok.com/" class="btn">
+                <span class="level-1">Grok</span>			
+            </a></li>
+        <li><a href="https://kimi.moonshot.cn/" class="btn">
+                <span class="level-1">Kimi</span>
+            </a></li>
+        <li><a href="https://chat.qwen.ai/" class="btn">
+                <span class="level-1">千问</span>
+            </a></li>
+        <li><a href="https://hailuoai.com/" class="btn">
+                <span class="level-1">海螺AI</span>
+            </a></li>
+        <li><a href="https://www.doubao.com/chat/?from_login=1" class="btn">
+                <span class="level-1">豆包</span>
+            </a></li>
+        <li><a href="https://tongyi.aliyun.com/" class="btn">
+                <span class="level-1">通义</span>
+            </a></li>
+        <li><a href="https://yuanbao.tencent.com/chat/naQivTmsDa/66e5b38f-b853-11ef-ac08-3680afcc0b24" class="btn">
+                <span class="level-1">腾讯元宝</span>
+            </a></li>
+        <li><a href="https://yiyan.baidu.com/" class="btn">
+                <span class="level-1">文心一言</span>
+            </a></li>
+        <li><a href="https://www.tiangong.cn/" class="btn">
+                <span class="level-1">天工</span>
+            </a></li>
+        <li><a href="https://xinghuo.xfyun.cn/desk" class="btn">
+                <span class="level-1">讯飞星火</span>
+            </a></li>
+        <li><a href="https://chatglm.cn/main/alltoolsdetail?lang=zh" class="btn">
+                <span class="level-1">智谱清言</span>
+            </a></li>
+        <li><a href="https://metaso.cn/" class="btn">
+                 <span class="level-1">秘塔AI搜索</span>
+            </a></li>
+        <li><a href="https://www.coze.cn/home" class="btn">
+                <span class="level-1">扣子</span>			
+            </a></li>
+        <li><a href="https://www.coze.com/home" class="btn">
+                <span class="level-1">Coze</span>			
+            </a></li>
+        <li><a href="https://flowith.io/blank" class="btn">
+                 <span class="level-1">Flowith</span>
+            </a></li>
+        <li><a href="https://poe.com/" class="btn">
+                <span class="level-1">POE</span>			
+            </a></li>
+        <li><a href="https://github.com/LiLittleCat/awesome-free-chatgpt/" class="btn">
+                <span class="level-1">GPT工具汇总</span>			
+            </a></li>
+        <li><a href="https://www.helicard.com/" class="btn">
+                <span class="level-1">科研工具集合</span>			
+            </a></li>  
+    </ul>
+</section>
+
+<section id="研究所">
         <h2>研究所</h2>
         <ul>
             <li><a href="https://itmp.msu.ru/en/" class="btn">
@@ -2185,146 +2552,88 @@ ul {
         </ul>
   </section>
 
-  <section id="LaTex">
-    <h2>LaTex</h2>
-    <ul>
-        <li><a href="https://www.latexstudio.net/" class="btn">
-                <span class="level-1">LaTex工作室</span>			
-            </a></li>
-        <li><a href="http://www.uinio.com/Math/LaTex/" class="btn">
-                <span class="level-1">通用Latex数学公式语法手册</span>			
-            </a></li>
-        <li><a href="https://www.amyxun.com/" class="btn">
-                <span class="level-1">公式编辑器与矢量绘图</span>			
-            </a></li>
-        <li><a href="https://cn.overleaf.com/project" class="btn">
-                <span class="level-1">Overleaf</span>			
-            </a></li>
-        <li><a href="https://www.mathcha.io/" class="btn">
-                <span class="level-1">Mathcha</span>			
-            </a></li>   
-    </ul>
-</section>
-
-<section id="AI工具">
-    <h2>AI工具</h2>
-    <ul>
-        <li><a href="https://chat.eqing.tech/" class="btn">
-                <span class="level-1">EasyChat</span>			
-            </a></li>
-        <li><a href="https://chat.deepseek.com/" class="btn">
-                <span class="level-1">DeepSeek</span>			
-            </a></li>
-        <li><a href="https://grok.com/" class="btn">
-                <span class="level-1">Grok</span>			
-            </a></li>
-        <li><a href="https://kimi.moonshot.cn/" class="btn">
-                <span class="level-1">Kimi</span>
-            </a></li>
-        <li><a href="https://chat.qwen.ai/" class="btn">
-                <span class="level-1">千问</span>
-            </a></li>
-        <li><a href="https://hailuoai.com/" class="btn">
-                <span class="level-1">海螺AI</span>
-            </a></li>
-        <li><a href="https://www.doubao.com/chat/?from_login=1" class="btn">
-                <span class="level-1">豆包</span>
-            </a></li>
-        <li><a href="https://tongyi.aliyun.com/" class="btn">
-                <span class="level-1">通义</span>
-            </a></li>
-        <li><a href="https://yuanbao.tencent.com/chat/naQivTmsDa/66e5b38f-b853-11ef-ac08-3680afcc0b24" class="btn">
-                <span class="level-1">腾讯元宝</span>
-            </a></li>
-        <li><a href="https://yiyan.baidu.com/" class="btn">
-                <span class="level-1">文心一言</span>
-            </a></li>
-        <li><a href="https://www.tiangong.cn/" class="btn">
-                <span class="level-1">天工</span>
-            </a></li>
-        <li><a href="https://xinghuo.xfyun.cn/desk" class="btn">
-                <span class="level-1">讯飞星火</span>
-            </a></li>
-        <li><a href="https://chatglm.cn/main/alltoolsdetail?lang=zh" class="btn">
-                <span class="level-1">智谱清言</span>
-            </a></li>
-        <li><a href="https://metaso.cn/" class="btn">
-                 <span class="level-1">秘塔AI搜索</span>
-            </a></li>
-        <li><a href="https://www.coze.cn/home" class="btn">
-                <span class="level-1">扣子</span>			
-            </a></li>
-        <li><a href="https://www.coze.com/home" class="btn">
-                <span class="level-1">Coze</span>			
-            </a></li>
-        <li><a href="https://flowith.io/blank" class="btn">
-                 <span class="level-1">Flowith</span>
-            </a></li>
-        <li><a href="https://poe.com/" class="btn">
-                <span class="level-1">POE</span>			
-            </a></li>
-        <li><a href="https://github.com/LiLittleCat/awesome-free-chatgpt/" class="btn">
-                <span class="level-1">GPT工具汇总</span>			
-            </a></li>
-        <li><a href="https://www.helicard.com/" class="btn">
-                <span class="level-1">科研工具集合</span>			
-            </a></li>
-
-        
-    </ul>
-</section>
 
 </div>
 
 <script>
-// 添加菜单切换按钮到DOM
-const menuButton = document.createElement('button');
-menuButton.className = 'menu-toggle';
-menuButton.innerHTML = '☰';
-document.body.appendChild(menuButton);
+// 添加菜单切换按钮功能
+const menuButton = document.querySelector('.menu-toggle');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.querySelector('.overlay');
 
-// 菜单切换功能
 menuButton.addEventListener('click', () => {
-  document.querySelector('.sidebar').classList.toggle('active');
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
 });
+
+// 点击遮罩层关闭侧边栏
+overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+// 二级导航菜单切换
+document.querySelectorAll('.nav-title').forEach(title => {
+    title.addEventListener('click', function() {
+        const subcategory = this.nextElementSibling;
+        subcategory.classList.toggle('active');
+    });
+});
+
+// 初始时展开所有子类别，方便用户看到全部
+//document.querySelectorAll('.nav-subcategory').forEach(sub => {
+//    sub.classList.add('active');
+//});
 
 // 滚动动画
 const sections = document.querySelectorAll('section');
 const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
 }, observerOptions);
 
 sections.forEach(section => {
-  observer.observe(section);
+    observer.observe(section);
 });
 
 // 平滑滚动
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            // 在移动设备上点击导航链接后关闭侧边栏
+            if (window.innerWidth <= 992) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
     });
-  });
 });
 
 // 添加动态背景效果
 const header = document.querySelector('header');
 header.addEventListener('mousemove', (e) => {
-  const { clientX, clientY } = e;
-  const x = Math.round((clientX / window.innerWidth) * 100);
-  const y = Math.round((clientY / window.innerHeight) * 100);
-  
-  header.style.background = `linear-gradient(${x}deg, var(--secondary-color), var(--primary-color))`;
+    const { clientX, clientY } = e;
+    const x = Math.round((clientX / window.innerWidth) * 100);
+    const y = Math.round((clientY / window.innerHeight) * 100);
+    
+    header.style.background = `linear-gradient(${x}deg, var(--secondary-color), var(--primary-color))`;
 });
 
 // 添加搜索功能
@@ -2333,7 +2642,6 @@ const searchResults = document.getElementById('searchResults');
 
 searchInput.addEventListener('input', function() {
     const searchTerm = this.value.toLowerCase();
-    const content = document.querySelector('.content');
     searchResults.style.display = searchTerm ? 'block' : 'none';
     
     if (!searchTerm) {
@@ -2345,19 +2653,20 @@ searchInput.addEventListener('input', function() {
     searchResults.innerHTML = '';
     
     // 搜索所有文本内容
-    const sections = content.querySelectorAll('section');
+    const sections = document.querySelectorAll('.content section');
     let results = [];
     
     sections.forEach(section => {
         const sectionId = section.id;
-        const sectionTitle = section.querySelector('h2').textContent;
+        const sectionHeading = section.querySelector('h2, h3');
+        const sectionTitle = sectionHeading ? sectionHeading.textContent : '';
         const links = section.querySelectorAll('a');
         
         links.forEach(link => {
             const text = link.textContent.toLowerCase();
             if (text.includes(searchTerm)) {
                 results.push({
-                    title: link.textContent,
+                    title: link.textContent.trim(),
                     section: sectionTitle,
                     element: link
                 });
@@ -2366,21 +2675,30 @@ searchInput.addEventListener('input', function() {
     });
 
     // 显示搜索结果
-    results.forEach(result => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'search-result-item';
-        resultItem.textContent = `${result.title} (${result.section})`;
-        
-        resultItem.addEventListener('click', () => {
-            result.element.scrollIntoView({ behavior: 'smooth' });
-            // 如果在移动设备上，点击后关闭侧边栏
-            if (window.innerWidth <= 768) {
-                document.querySelector('.sidebar').classList.remove('active');
-            }
+    if (results.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'search-result-item';
+        noResults.textContent = '没有找到匹配结果';
+        searchResults.appendChild(noResults);
+    } else {
+        results.forEach(result => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.textContent = `${result.title} (${result.section})`;
+            
+            resultItem.addEventListener('click', () => {
+                result.element.scrollIntoView({ behavior: 'smooth' });
+                // 点击后关闭侧边栏
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+                searchResults.style.display = 'none';
+            });
+            
+            searchResults.appendChild(resultItem);
         });
-        
-        searchResults.appendChild(resultItem);
-    });
+    }
 });
 
 // 点击其他地方时隐藏搜索结果
@@ -2390,7 +2708,198 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// 返回顶部功能
+const backToTopButton = document.querySelector('.back-to-top');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopButton.classList.add('visible');
+    } else {
+        backToTopButton.classList.remove('visible');
+    }
+});
+
+backToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// 响应式处理
+function handleResize() {
+    // 检查窗口宽度，调整界面元素
+    if (window.innerWidth > 992) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+}
+
+// 初始加载和窗口大小变化时调整界面
+window.addEventListener('resize', handleResize);
+handleResize();
+
+// 修改搜索功能部分的代码
+searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    searchResults.style.display = searchTerm ? 'block' : 'none';
+    
+    if (!searchTerm) {
+        searchResults.innerHTML = '';
+        return;
+    }
+
+    // 清除之前的搜索结果
+    searchResults.innerHTML = '';
+    
+    // 搜索所有文本内容
+    const sections = document.querySelectorAll('.content section');
+    let results = [];
+    
+    sections.forEach(section => {
+        const sectionId = section.id;
+        const sectionHeading = section.querySelector('h2, h3');
+        const sectionTitle = sectionHeading ? sectionHeading.textContent : '';
+        const links = section.querySelectorAll('a');
+        
+        links.forEach(link => {
+            const text = link.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                results.push({
+                    title: link.textContent.trim(),
+                    section: sectionTitle,
+                    element: link
+                });
+            }
+        });
+    });
+
+    // 显示搜索结果
+    if (results.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'search-result-item';
+        noResults.textContent = '没有找到匹配结果';
+        searchResults.appendChild(noResults);
+    } else {
+        results.forEach(result => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.textContent = `${result.title} (${result.section})`;
+            
+            resultItem.addEventListener('click', () => {
+                // 移除所有之前的高光效果
+                document.querySelectorAll('.highlight-button').forEach(el => {
+                    el.classList.remove('highlight-button');
+                });
+                
+                // 添加高光效果
+                result.element.classList.add('highlight-button');
+                
+                // 滚动到元素位置
+                result.element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center' 
+                });
+                
+                // 设置定时器，几秒后移除高光效果
+                setTimeout(() => {
+                    result.element.classList.remove('highlight-button');
+                }, 5000); // 5秒后移除高光
+                
+                // 点击后关闭侧边栏
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+                searchResults.style.display = 'none';
+            });
+            
+            searchResults.appendChild(resultItem);
+        });
+    }
+});
+
+// 最近访问记录功能
+const MAX_RECENT_VISITS = 3; // 最多记录3个链接
+
+// 从localStorage加载最近访问
+function loadRecentVisits() {
+    const recentVisits = JSON.parse(localStorage.getItem('recentVisits') || '[]');
+    const recentVisitsList = document.getElementById('recentVisitsList');
+    
+    // 清空现有列表
+    recentVisitsList.innerHTML = '';
+    
+    if (recentVisits.length === 0) {
+        recentVisitsList.innerHTML = '<div class="no-recent">暂无访问记录</div>';
+        return;
+    }
+    
+    // 添加记录到列表
+    recentVisits.forEach(visit => {
+        const item = document.createElement('div');
+        item.className = 'recent-visit-item';
+        item.textContent = visit.title;
+        item.setAttribute('data-url', visit.url);
+        item.setAttribute('title', `访问 ${visit.title}`);
+        
+        item.addEventListener('click', function() {
+            window.open(visit.url, '_blank');
+        });
+        
+        recentVisitsList.appendChild(item);
+    });
+}
+
+// 添加新的访问记录
+function addRecentVisit(title, url) {
+    let recentVisits = JSON.parse(localStorage.getItem('recentVisits') || '[]');
+    
+    // 检查是否已存在相同URL
+    const existingIndex = recentVisits.findIndex(visit => visit.url === url);
+    if (existingIndex !== -1) {
+        // 如果存在，删除旧的记录
+        recentVisits.splice(existingIndex, 1);
+    }
+    
+    // 添加新记录到开头
+    recentVisits.unshift({ title, url });
+    
+    // 限制最大数量
+    if (recentVisits.length > MAX_RECENT_VISITS) {
+        recentVisits = recentVisits.slice(0, MAX_RECENT_VISITS);
+    }
+    
+    // 保存到localStorage
+    localStorage.setItem('recentVisits', JSON.stringify(recentVisits));
+    
+    // 更新显示
+    loadRecentVisits();
+}
+
+// 为所有外部链接添加点击事件监听
+function setupRecentVisitsTracking() {
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // 获取链接的标题和URL
+            const title = this.querySelector('.level-1')?.textContent || this.textContent;
+            const url = this.href;
+            
+            // 添加到最近访问
+            addRecentVisit(title, url);
+        });
+    });
+}
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    loadRecentVisits();
+    setupRecentVisitsTracking();
+});
+
+
 </script>
+
 
 </body>
 </html>
